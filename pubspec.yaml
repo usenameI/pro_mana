@@ -1,0 +1,53 @@
+name: pro_mana
+description: "A new Flutter plugin project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.5.3
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+  #获取经纬度
+  geolocator: ^13.0.1
+  #获取权限
+  permission_handler: ^11.3.1
+  #编辑图片
+  image: ^4.3.0
+  #重力感应器
+  sensors_plus: ^4.0.1
+  # 裁剪
+  crop_your_image: ^1.1.0
+  # 组件库
+  tdesign_flutter: ^0.1.7
+  #微信相册
+  wechat_assets_picker: ^9.3.3
+  #微信相机
+  wechat_camera_picker: ^4.2.0
+  #图片预览
+  photo_view: ^0.15.0
+    # 屏幕参数适配 https://pub.flutter-io.cn/packages/flutter_screenutil
+  flutter_screenutil: ^5.9.0
+  #跳转第三方
+  url_launcher: ^6.3.1
+  #坐标系转换
+  coordtransform_dart: ^1.0.4
+  #网络请求插件
+  dio: ^5.4.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+flutter:
+  plugin:
+    platforms:
+    # -------------------
+      some_platform:
+        pluginClass: somePluginClass
+    # -------------------
+      android:
+        package: com.example.pro_mana
+        pluginClass: ProManaPlugin
