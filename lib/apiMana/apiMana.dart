@@ -1,52 +1,72 @@
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
+
 ///设置全局api使用的参数
-class apiConfig{
+class apiConfig {
   ///token
-  static String token='';
+  static String token = '';
+
   ///接口使用的地址
-  static String internetAddress='';
+  static String internetAddress = '';
+
   ///图片显示使用的地址
-  static String imageInter='';
+  static String imageInter = '';
 }
 
 ///网络请求封装
 class apiMana {
-    static Future get(
+  ///二次封装get请求
+  static Future get(
       {required String path, Map<String, dynamic>? queryParameters}) async {
     final dio = Dio();
-    final res = await dio.get(apiConfig.internetAddress+path,
+    final res = await dio.get(apiConfig.internetAddress + path,
         queryParameters: queryParameters,
-        options: Options(headers: {'Authorization': apiConfig.token})
-        );
+        options: Options(headers: {'Authorization': apiConfig.token}));
+    if (res.data is String) {
+      return jsonDecode(res.data);
+    }
     return res.data;
   }
 
+  ///二次封装post请求
   static Future post({required String path, Map? data}) async {
     final dio = Dio();
     final res = await dio.post('${apiConfig.internetAddress}$path',
-        data: data, options: Options(headers: {'Authorization': apiConfig.token}));
+        data: data,
+        options: Options(headers: {'Authorization': apiConfig.token}));
     print('log__apiMana_post_返回数据:${res.data}');
+    if (res.data is String) {
+      return jsonDecode(res.data);
+    }
     return res.data;
   }
 
+  ///二次封装delete请求
   static Future delete({required String path}) async {
     final dio = Dio();
     final res = await dio.delete('${apiConfig.internetAddress}$path',
         options: Options(headers: {'Authorization': apiConfig.token}));
+    if (res.data is String) {
+      return jsonDecode(res.data);
+    }
     return res.data;
   }
 
-  // static Future uploadFile(
-  //     {required fileBytes, required fileName, required path}) async {
-  //   FormData formData = FormData.fromMap({
-  //     'file': MultipartFile.fromBytes(fileBytes!, filename: fileName),
-  //   });
-  //   final dio = Dio();
-  //   Response response = await dio.post(
-  //     path, // 替换为您的服务器 URL
-  //     data: formData,
-  //   );
-  //   return jsonDecode(response.data);
-  // }
+  ///二次封装文件上传
+  static Future uploadFile(
+      {required fileBytes, required fileName, required path}) async {
+    FormData formData = FormData.fromMap({
+      'file': MultipartFile.fromBytes(fileBytes!, filename: fileName),
+    });
+    final dio = Dio();
+    Response response = await dio.post(
+      path, // 替换为您的服务器 URL
+      data: formData,
+    );
+    if (response.data is String) {
+      return jsonDecode(response.data);
+    }
+    return response.data;
+  }
 }
