@@ -2,7 +2,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-///封装了获取经纬度的功能
+///定位服务
 class getLocation{
    // 检查权限
  static Future<bool> checkqx()async{

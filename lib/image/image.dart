@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
-
+///图片预览
 class preview {
   ///单图预览
   static Future show(String url, context, {bool onDelete = true}) async {

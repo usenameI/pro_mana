@@ -1,3 +1,4 @@
+///获取日期（map格式）用于自定义组件
 class dateGet {
   ///获取当前时间返回map格式
   static Map getDate() {
@@ -28,7 +29,9 @@ class dateGet {
     if (date['year'] == null) {
       return '';
     }
-    return '${date['year'].toString().padLeft(4, '0')}-'
+    
+    return
+        '${date['year'].toString().padLeft(4, '0')}-'
         '${date['month'].toString().padLeft(2, '0')}-'
         '${date['day'].toString().padLeft(2, '0')} '
         '${date['hour'].toString().padLeft(2, '0')}:'

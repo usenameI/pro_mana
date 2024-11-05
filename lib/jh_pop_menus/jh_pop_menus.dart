@@ -6,7 +6,7 @@ const double _cellHeight = 50.0;
 const double _imgWH = 22.0;
 
 
-///封装了右上角弹框功能类似微信的一样的黑色弹框
+///仿微信右上弹窗功能
 class JhPopMenus {
   /// 显示pop
   static void show(

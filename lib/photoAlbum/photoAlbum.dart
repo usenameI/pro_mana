@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-
+///仿微信相册
 class photoAlbum {
   ///不可使用相机
   static Future<List<AssetEntity>?> getAssetNoCamera(context) async {
@@ -17,7 +17,7 @@ class photoAlbum {
     final List<AssetEntity>? result = await AssetPicker.pickAssets(
       contextP,
       pickerConfig: AssetPickerConfig(
-        maxAssets: 9,
+        maxAssets: 20,
         specialItemPosition: SpecialItemPosition.prepend,
         specialItemBuilder: (
           BuildContext context,

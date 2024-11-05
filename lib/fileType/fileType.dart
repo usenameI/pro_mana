@@ -7,7 +7,7 @@ enum fileTypes{
   txt,
   other
 }
-///判断文件类型
+///文件类型判断
 class fileType{
   static fileTypes isVideoOrImage(String filePath) {
   // 获取文件后缀

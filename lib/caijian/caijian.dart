@@ -4,7 +4,7 @@ import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-///裁剪页面
+///裁剪图片
 class caijian extends StatefulWidget {
   dynamic path;
   caijian({required this.path});

@@ -37,6 +37,8 @@ dependencies:
   coordtransform_dart: ^1.0.4
   #网络请求插件
   dio: ^5.4.1
+  #本地存储
+  shared_preferences: ^2.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
