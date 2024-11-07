@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
   ///int
  static Future<int?> getInt({ required String keyName})async{
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(keyName) ?? 1;
+    return prefs.getInt(keyName);
   }
   ///设置int
    static Future<bool> setInt({required String keyName,required int value})async{
