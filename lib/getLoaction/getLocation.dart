@@ -117,4 +117,15 @@ static double getRection({
     return distance;
 }
 
+    ///米数显示
+   static String formatDistance(double meters) {
+    if (meters >= 1000) {
+      double kilometers = meters / 1000;
+      return '${kilometers.toStringAsFixed(2)} 千米'; // 保留两位小数
+    } else {
+      return '${meters.toStringAsFixed(0)} 米'; // 整数米数
+    }
+  }
+
+
 }
