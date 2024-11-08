@@ -14,15 +14,39 @@ class apiConfig {
   static String imageInter = '';
 }
 
+class QueryConfig{
+  var resetUrl;
+  bool? setToken;
+  QueryConfig({
+    required this.resetUrl,
+     this.setToken=true
+  });
+}
+
 ///网络请求封装
 class apiMana {
   ///二次封装get请求
   static Future get(
-      {required String path, Map<String, dynamic>? queryParameters}) async {
+      {required String path, Map<String, dynamic>? queryParameters,QueryConfig? queryConfig}) async {
     final dio = Dio();
-    final res = await dio.get(apiConfig.internetAddress + path,
-        queryParameters: queryParameters,
-        options: Options(headers: {'Authorization': apiConfig.token}));
+    final res = await dio.get((){ 
+          if(queryConfig!=null){
+            if(queryConfig.resetUrl!=null){
+              return queryConfig.resetUrl;
+            }
+          }
+          return apiConfig.internetAddress+path;
+        }(),
+        queryParameters: queryParameters, 
+        options: (){
+          if(queryConfig!=null){
+            if(queryConfig.setToken==true){
+              return null;
+            }
+            return Options(headers: {'Authorization': apiConfig.token});
+          }
+        }());
+            print('log__apiMana_post_返回数据:${res.data}');
     if (res.data is String) {
       return jsonDecode(res.data);
     }
@@ -30,11 +54,26 @@ class apiMana {
   }
 
   ///二次封装post请求
-  static Future post({required String path, Map? data}) async {
+  static Future post({required String path, Map? data,QueryConfig? queryConfig}) async {
     final dio = Dio();
-    final res = await dio.post('${apiConfig.internetAddress}$path',
+    final res = await dio.post(
+      (){ 
+          if(queryConfig!=null){
+            if(queryConfig.resetUrl!=null){
+              return queryConfig.resetUrl;
+            }
+          }
+          return apiConfig.internetAddress+path;
+        }(),
         data: data,
-        options: Options(headers: {'Authorization': apiConfig.token}));
+        options: (){
+          if(queryConfig!=null){
+            if(queryConfig.setToken==true){
+              return null;
+            }
+            return Options(headers: {'Authorization': apiConfig.token});
+          }
+        }());
     print('log__apiMana_post_返回数据:${res.data}');
     if (res.data is String) {
       return jsonDecode(res.data);
@@ -43,7 +82,7 @@ class apiMana {
   }
 
   ///二次封装delete请求
-  static Future delete({required String path}) async {
+  static Future delete({required String path,QueryConfig? queryConfig}) async {
     final dio = Dio();
     final res = await dio.delete('${apiConfig.internetAddress}$path',
         options: Options(headers: {'Authorization': apiConfig.token}));
@@ -55,7 +94,7 @@ class apiMana {
 
   ///二次封装文件上传
   static Future uploadFile(
-      {required fileBytes, required fileName, required path}) async {
+      {required fileBytes, required fileName, required path,QueryConfig? queryConfig}) async {
     FormData formData = FormData.fromMap({
       'file': MultipartFile.fromBytes(fileBytes!, filename: fileName),
     });
