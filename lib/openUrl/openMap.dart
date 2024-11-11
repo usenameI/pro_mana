@@ -110,7 +110,6 @@ openMapFromApp(context,
               text: '百度地图',
               theme: TDButtonTheme.primary,
               onTap: () {
-                print('object');
                 openBaiduMap(context, longitude, latitude, address: address);
               },
             ),
