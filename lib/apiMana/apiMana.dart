@@ -43,8 +43,9 @@ class apiMana {
             if(queryConfig.setToken==true){
               return null;
             }
-            return Options(headers: {'Authorization': apiConfig.token});
+            
           }
+          return Options(headers: {'Authorization': apiConfig.token});
         }());
             print('log__apiMana_post_返回数据:${res.data}');
     if (res.data is String) {

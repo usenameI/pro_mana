@@ -38,4 +38,20 @@ class dateGet {
         '${date['minute'].toString().padLeft(2, '0')}:'
         '${date['second'].toString().padLeft(2, '0')}';
   }
+
+  ///字符串转map格式
+  static Map mapFromString(DateTime date,{
+   int? hour,
+   int? minute,
+   int? second
+  }){
+    return {
+      'year':date.year,
+      'month':date.month,
+      'day':date.day,
+      'hour':hour ?? date.hour,
+      'minute':minute ?? date.minute,
+      'second':second ?? date.second,
+    };
+  }
 }

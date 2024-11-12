@@ -40,7 +40,12 @@ class customWidget {
         children: [
           titleBar(title),
           Expanded(
-            child: child,
+            child: 
+            Container(
+              color: colorUse.bc,
+              child: child,
+            )
+            ,
           )
         ],
       ),

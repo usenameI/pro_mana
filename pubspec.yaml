@@ -1,6 +1,7 @@
 name: pro_mana
 description: "A new Flutter plugin project."
 version: 0.0.1
+publish_to: 'none'
 homepage:
 
 environment:
@@ -41,6 +42,8 @@ dependencies:
   shared_preferences: ^2.2.2
   #状态管理
   provider: ^6.1.2
+  #日期范围
+  syncfusion_flutter_datepicker: ^27.1.58
 dev_dependencies:
   flutter_test:
     sdk: flutter
