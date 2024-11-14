@@ -45,6 +45,8 @@ dependencies:
   syncfusion_flutter_datepicker: ^27.1.58
   #底部菜单
   convex_bottom_bar: ^3.2.0
+  #列表的底部菜单
+  flutter_floating_bottom_bar: ^1.2.1+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
