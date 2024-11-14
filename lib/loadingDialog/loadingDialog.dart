@@ -8,8 +8,9 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 class LoadingDailag {
   static show(BuildContext context,
       {required DialogController dialogController,
-      required Future<void> Function() onSuccess,
-      required Function() onExit}) {
+      Future<void> Function()? onSuccess,
+      Function()? onExit,
+      bool autoExit = true}) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -17,7 +18,7 @@ class LoadingDailag {
         return DialogWidget(
           dialogController: dialogController,
           onSuccess: onSuccess,
-          onExit: onExit,
+          onExit: onExit, autoExit: autoExit,
         );
       },
     );
@@ -28,6 +29,11 @@ class LoadingDailag {
 class DialogController {
   TimeController? timeState;
   CancelController? cancelController;
+
+  BuildContext? context;
+  dismiss() {
+    Navigator.pop(context!);
+  }
 }
 
 class TimeController extends ChangeNotifier {
@@ -54,16 +60,22 @@ class CancelController extends ChangeNotifier {
 ///对话框组件
 class DialogWidget extends StatefulWidget {
   ///控制器
-  DialogController? dialogController;
+  DialogController dialogController;
 
   ///创建成功回调
-  Future<void> Function() onSuccess;
+  Future<void> Function()? onSuccess;
 
   ///退出回调
-  Function() onExit;
+  Function()? onExit;
+
+  ///自动退出
+  bool autoExit;
 
   DialogWidget(
-      {this.dialogController, required this.onSuccess, required this.onExit});
+      {required this.dialogController,
+      required this.onSuccess,
+      required this.onExit,
+      required this.autoExit});
 
   @override
   State<DialogWidget> createState() {
@@ -81,10 +93,16 @@ class _DialogWidget extends State<DialogWidget> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await widget.onSuccess();
-      if (isRun) {
-        Navigator.pop(context);
-        widget.onExit();
+      widget.dialogController.context = context;
+
+      if (widget.onSuccess != null) {
+        await widget.onSuccess!();
+        if (widget.autoExit) {
+          if (isRun) {
+            Navigator.pop(context);
+            widget.onExit!();
+          }
+        }
       }
     });
   }
@@ -121,16 +139,17 @@ class _DialogWidget extends State<DialogWidget> {
                 create: (context) => TimeController(),
                 child: Consumer<TimeController>(
                   builder: (context, value, child) {
-                    if (widget.dialogController != null) {
-                      widget.dialogController!.timeState = value;
-                    }
-
-                    return TDLoading(
+                    widget.dialogController.timeState = value;
+                    return 
+                    TDText.rich(TextSpan(children: [
+                      const WidgetSpan(child: TDLoading(
                       size: TDLoadingSize.large,
                       icon: TDLoadingIcon.circle,
-                      text: '${value.title} ${value.count}/${value.current}',
-                      axis: Axis.horizontal,
-                    );
+                    )),
+                    const WidgetSpan(child: SizedBox(width: 10,)),
+                    TDTextSpan(text: '${value.title} ${value.count}/${value.current}')
+                    ]))
+                    ;
                   },
                 ),
               ),
@@ -138,14 +157,14 @@ class _DialogWidget extends State<DialogWidget> {
                 children: [
                   secondTime(callBack: (value) {
                     // cancelLoad = true;
-                    widget.dialogController?.cancelController?.set(true);
+                    widget.dialogController.cancelController?.set(true);
                   }),
                   const Expanded(child: SizedBox()),
                   ChangeNotifierProvider(
                       create: (context) => CancelController(),
                       child: Consumer<CancelController>(
                         builder: (context, value, child) {
-                          widget.dialogController?.cancelController = value;
+                          widget.dialogController.cancelController = value;
                           return Visibility(
                               visible: value.cancelLoad,
                               child: TDButton(
@@ -153,7 +172,7 @@ class _DialogWidget extends State<DialogWidget> {
                                 type: TDButtonType.text,
                                 theme: TDButtonTheme.primary,
                                 onTap: () {
-                                  isRun=false;
+                                  isRun = false;
                                   Navigator.pop(context);
                                 },
                               ));

@@ -1,9 +1,8 @@
 name: pro_mana
 description: "A new Flutter plugin project."
 version: 0.0.1
-publish_to: 'none'
-homepage:
-
+homepage: https://github.com/usenameI/pro_mana.git
+publish_to: http://localhost:8080
 environment:
   sdk: ^3.5.3
   flutter: '>=3.3.0'
@@ -44,6 +43,8 @@ dependencies:
   provider: ^6.1.2
   #日期范围
   syncfusion_flutter_datepicker: ^27.1.58
+  #底部菜单
+  convex_bottom_bar: ^3.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

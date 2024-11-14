@@ -1,6 +1,7 @@
 
   import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 
@@ -40,15 +41,23 @@ static Color lightColor(context){
   return TDTheme.of(context).brandFocusColor;
 }
 
+
+
 }
 
-// 绿色：通常代表成功或完成。
-// 橙色：表示正在进行的任务。
-// 红色：用于紧急或需要立即关注的状态。
-// 灰色：表示未开始或无效的状态。
-// 蓝色：常用于暂停或等待的状态。
-// 紫色：可以表示需要审核或确认的状态。
-// 深红色：用于表示已取消的状态。
-// 暗灰色：表示已过期的状态。
-// 黄色：通常用于待处理或需要注意的状态。
-// 青色：可以表示已完成的状态。
+///搭配白色的颜色
+class PairWithWhite{
+///深灰色
+static Color shs=const Color(0xff333333);
+///黑色
+static Color hs=const Color(0xff000000);
+///海军蓝
+static Color hjl=const Color(0xff001F3F);
+///深绿色
+static Color sls=const Color(0xff004D00);
+///暗红色
+static Color ahs=const Color(0xff8B0000);
+///灰蓝色
+static Color hls=const Color(0xffB0BEC5);
+
+}
