@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pro_mana/style/color/colorUse.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
+
 ///页面自定义组件
 class customWidget {
   ///页面主要按钮自定义设计
@@ -20,32 +21,49 @@ class customWidget {
     );
   }
 
-  ///标题栏
-  static titleBar(String title) {
-    return TDNavBar(
-      height: 48,
-      titleFontWeight: FontWeight.w600,
-      title: title,
-      screenAdaptation: false,
-      useDefaultBack: true,
+  ///文本按钮
+  static Widget textBt(String name, {required Function onTap}) {
+    return TDButton(
+      type: TDButtonType.text,
+      theme: TDButtonTheme.primary,
+      text: name,
+      activeStyle:
+          TDButtonStyle(textColor: const Color.fromARGB(255, 28, 3, 139)),
+      onTap: () => onTap(),
     );
   }
 
+  ///标题栏
+  static titleBar(String title,
+      {List rightBt = const [], Function(int)? onTap}) {
+    return TDNavBar(
+        height: 48,
+        titleFontWeight: FontWeight.w600,
+        title: title,
+        screenAdaptation: false,
+        useDefaultBack: true,
+        rightBarItems: rightBt.map((e) {
+          return TDNavBarItem(iconWidget: e);
+        }).toList());
+  }
+
   ///页面组件
-  static pageBody({required String title, required Widget child}) {
+  static pageBody(
+      {required String title,
+      required Widget child,
+      rightBts = const [],
+      Function(int)? ontap}) {
     return SafeArea(
         child: Container(
-          color: colorUse.bc,
+      color: colorUse.bc,
       child: Column(
         children: [
-          titleBar(title),
+          titleBar(title, rightBt: rightBts, onTap: ontap),
           Expanded(
-            child: 
-            Container(
+            child: Container(
               color: colorUse.bc,
               child: child,
-            )
-            ,
+            ),
           )
         ],
       ),
