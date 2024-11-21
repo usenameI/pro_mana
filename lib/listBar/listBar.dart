@@ -232,7 +232,9 @@ class bottomBar {
       {required List<BarIcon> iconList,
       required Function(int) onclick,
       required Function(bool) barStateChange,
-      required BottomBarController bottomBarController}) {
+      required BottomBarController bottomBarController,
+      MainAxisAlignment alignment=MainAxisAlignment.spaceBetween
+      }) {
         bottomBarController.iconList=iconList;
     return ChangeNotifierProvider(
         create: (context) => bottomController(),
@@ -248,7 +250,7 @@ class bottomBar {
                   children: [
                     Center(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: alignment,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: iconList.map((e) {
                           return InkWell(
@@ -284,7 +286,12 @@ class bottomBar {
                       ),
                     ),
                       (){
-                        if(iconList[bottomBarController.barIndex??0].panel==null){
+                        
+                        if(bottomBarController.barIndex==null){
+                          return const SizedBox(height: 30,);
+                        }
+
+                        if(iconList[bottomBarController.barIndex!].panel==null){
                           return const SizedBox(height: 30,);
                         }
                      return Center(child: Row(
