@@ -28,3 +28,4 @@
     16、加载弹窗组件 loadingDialog
     17、范围日期选择 rangeTime
     18、列表底部菜单 listBar
+    19、秒表功能 secondTime
