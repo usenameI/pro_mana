@@ -1,82 +1,141 @@
 import 'package:flutter/material.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
-///默认键名
-Map defaultValue={
-  'name':'name',
-  'id':'id',
-  'organizationalStructureNoteVOList':'organizationalStructureNoteVOList'
-};
+
+class jlConfig {
+  static Map defaultValue = {
+    'name': 'name',
+    'id': 'id',
+    'organizationalStructureNoteVOList': 'organizationalStructureNoteVOList',
+    'forbid': 'project',
+  };
+  static bool forbidValue = false;
+  static
+
+      ///设置键名
+      setDefaultValue(jlType type) {
+    switch (type) {
+      case jlType.part:
+        defaultValue.addAll({
+          'name': 'label',
+          'id': 'id',
+          'organizationalStructureNoteVOList': 'children',
+          'forbid': 'project'
+        });
+
+        break;
+      case jlType.area:
+        defaultValue.addAll({
+          'name': 'name',
+          'id': 'id',
+          'organizationalStructureNoteVOList':
+              'organizationalStructureNoteVOList',
+          'forbid': 'project'
+        });
+        break;
+      case jlType.book:
+        defaultValue.addAll({
+          'name': 'name',
+          'id': 'id',
+          'organizationalStructureNoteVOList': 'phoneBookNodeVOList',
+          'forbid': 'project'
+        });
+        break;
+      case jlType.device:
+        defaultValue.addAll({
+          'name': 'name',
+          'id': 'id',
+          'organizationalStructureNoteVOList': 'deviceManageNodeVOList',
+          'forbid': 'project'
+        });
+        break;
+    }
+  }
+}
+
+// ///默认键名
+// Map defaultValue = {
+//   'name': 'name',
+//   'id': 'id',
+//   'organizationalStructureNoteVOList': 'organizationalStructureNoteVOList',
+//   'forbid': 'project',
+
+// };
+//  bool forbidValue=false;
 
 ///设置键名
-setDefaultValue(jlType type){
+// setDefaultValue(jlType type) {
+//   switch (type) {
+//     case jlType.part:
+//       defaultValue.addAll({
+//         'name': 'label',
+//         'id': 'id',
+//         'organizationalStructureNoteVOList': 'children',
+//         'forbid': 'project'
+//       });
 
-    switch(type){
-      case jlType.part:
-      defaultValue={
-         'name':'label',
-          'id':'id',
-          'organizationalStructureNoteVOList':'children'
-      };
-   
-      break;
-      case jlType.area:
-      defaultValue={
-        'name':'name',
-        'id':'id',
-        'organizationalStructureNoteVOList':'organizationalStructureNoteVOList'
-      };
-      break;
-      case jlType.book:
-      defaultValue={
-        'name':'name',
-        'id':'id',
-        'organizationalStructureNoteVOList':'phoneBookNodeVOList'
-      };
-      break;
-      case jlType.device:
-            defaultValue={
-        'name':'name',
-        'id':'id',
-        'organizationalStructureNoteVOList':'deviceManageNodeVOList'
-      };
-      break;
-    }
-}
+//       break;
+//     case jlType.area:
+//       defaultValue.addAll({
+//         'name': 'name',
+//         'id': 'id',
+//         'organizationalStructureNoteVOList':
+//             'organizationalStructureNoteVOList',
+//         'forbid': 'project'
+//       });
+//       break;
+//     case jlType.book:
+//       defaultValue.addAll({
+//         'name': 'name',
+//         'id': 'id',
+//         'organizationalStructureNoteVOList': 'phoneBookNodeVOList',
+//         'forbid': 'project'
+//       });
+//       break;
+//     case jlType.device:
+//       defaultValue.addAll({
+//         'name': 'name',
+//         'id': 'id',
+//         'organizationalStructureNoteVOList': 'deviceManageNodeVOList',
+//         'forbid': 'project'
+//       });
+//       break;
+//   }
+// }
 
 ///枚举
-enum jlType{
-  part,
-  area,
-  book,
-  device
-}
+enum jlType { part, area, book, device }
 
 ///级联选择器的控制器
 class customJlxzqController extends ChangeNotifier {
-  customJlxzqController(){
+  bool forbid = false;
+  customJlxzqController() {
     stack.add({});
   }
   List stack = [];
+
   ///获取已选中的所有数据
-  List getSelectData(){
+  List getSelectData() {
     List vs = List.from(stack);
-    vs.removeWhere((element) => element[defaultValue['name']] == null);
+    vs.removeWhere((element) => element[jlConfig.defaultValue['name']] == null);
     return vs;
   }
+
   ///通知
-  void toggle(){
+  void toggle() {
     notifyListeners();
   }
 }
+
 ///弹窗ui
 class useCustomJLXZQ {
   customJlxzqController controller = customJlxzqController();
-  Future show(context, {
-    required List data, 
-    required callBack,
-    required jlType type
-    }) async {
-      setDefaultValue(type);
+  Future show(context,
+      {required List data,
+      required callBack,
+      required jlType type,
+      bool forbid = false,
+      bool forbidValue = false}) async {
+    jlConfig.setDefaultValue(type);
     Navigator.of(context).push(TDSlidePopupRoute(
         modalBarrierColor: TDTheme.of(context).fontGyColor2,
         slideTransitionFrom: SlideTransitionFrom.bottom,
@@ -100,10 +159,11 @@ class useCustomJLXZQ {
                   ),
                   height: 300,
                   child: customJlxzq(
+                    forbid: forbid,
                     data: data,
-                    controller: controller, callback: (value){
-
-                    },
+                    controller: controller,
+                    callback: (value) {},
+                    forbidValue: forbidValue,
                   )));
         }));
   }
@@ -113,7 +173,15 @@ class customJlxzq extends StatefulWidget {
   customJlxzqController? controller;
   List data;
   Function callback;
-  customJlxzq({this.controller, required this.data,required this.callback});
+  bool forbid;
+  customJlxzq(
+      {this.controller,
+      required this.data,
+      required this.callback,
+      this.forbid = false,
+      bool forbidValue = false}) {
+    jlConfig.forbidValue = forbidValue;
+  }
   @override
   State<customJlxzq> createState() => _customJlxzq();
 }
@@ -126,20 +194,20 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
   PageController _pageController = PageController();
   TabController? _tab;
   void _updateState() {
-    setState((){}); // 更新状态以反映控制器的变化
+    setState(() {}); // 更新状态以反映控制器的变化
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    widget.controller?.forbid = widget.forbid;
     // stack.add({});
     Contents.add(widget.data);
     _tab = TabController(length: widget.controller!.stack.length, vsync: this);
     widget.controller?.addListener(_updateState);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       print('log__级联数据${widget.data}');
-      //  addListV(pageIndex,);
       setState(() {});
     });
   }
@@ -176,16 +244,18 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
       }
     }
     if (data is Map) {
-      if (data[defaultValue['id']] == id) {
+      if (data[jlConfig.defaultValue['id']] == id) {
         useData = {
-          'name': data[defaultValue['name']],
-          'id': data[defaultValue['id']],
-          defaultValue['organizationalStructureNoteVOList']:
-          data[defaultValue['organizationalStructureNoteVOList']]
+          'name': data[jlConfig.defaultValue['name']],
+          'id': data[jlConfig.defaultValue['id']],
+          jlConfig.defaultValue['organizationalStructureNoteVOList']:
+              data[jlConfig.defaultValue['organizationalStructureNoteVOList']]
         };
       } else {
-        var v = DG(data[defaultValue['organizationalStructureNoteVOList']], id);
-        if (v != null){
+        var v = DG(
+            data[jlConfig.defaultValue['organizationalStructureNoteVOList']],
+            id);
+        if (v != null) {
           useData = v;
         }
       }
@@ -208,7 +278,9 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
       if (data['id'] == id) {
         cf = true;
       } else {
-        var v = remove(data[defaultValue['organizationalStructureNoteVOList']], id);
+        var v = remove(
+            data[jlConfig.defaultValue['organizationalStructureNoteVOList']],
+            id);
         if (v == true) {
           cf = true;
         }
@@ -233,7 +305,7 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
                 tabs: widget.controller?.stack.map((e) {
                   return TDTab(
                     size: TDTabSize.large,
-                    text: e[defaultValue['name']] ?? '请选择',
+                    text: e[jlConfig.defaultValue['name']] ?? '请选择',
                   );
                 }).toList() as List<TDTab>,
                 controller: _tab,
@@ -255,19 +327,27 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
               controller: _pageController,
               itemCount: Contents.length,
               itemBuilder: (context, index) {
-                
                 return pl(
+                    forbid: widget.forbid,
                     listData: Contents[index],
-                    name: widget.controller?.stack[index][defaultValue['name']],
-                    callback: (value, name, id) {
+                    name: widget.controller?.stack[index]
+                        [jlConfig.defaultValue['name']],
+                    callback: (value, name, id, forbid) {
                       var v = DG(widget.data, id);
+
                       widget.callback(v);
-                      widget.controller?.stack[index][defaultValue['id']] = id;
-                      widget.controller?.stack[index][defaultValue['name']] = name;
+                      widget.controller?.stack[index]
+                          [jlConfig.defaultValue['id']] = id;
+                      widget.controller?.stack[index]
+                          [jlConfig.defaultValue['name']] = name;
+                      widget.controller?.stack[index]
+                          [jlConfig.defaultValue['forbid']] = forbid;
                       for (var i = widget.controller!.stack.length - 1;
                           i > -1;
                           i--) {
-                        if (widget.controller?.stack[i][defaultValue['id']] == null) {
+                        if (widget.controller?.stack[i]
+                                [jlConfig.defaultValue['id']] ==
+                            null) {
                           widget.controller?.stack.removeAt(i);
                           Contents.removeAt(i);
                         }
@@ -277,19 +357,25 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
                             i > index;
                             i--) {
                           var va = remove(
-                              v[defaultValue['organizationalStructureNoteVOList']], id);
+                              v[jlConfig.defaultValue[
+                                  'organizationalStructureNoteVOList']],
+                              id);
                           if (va == false) {
                             widget.controller?.stack.removeAt(i);
                             Contents.removeAt(i);
                           }
                         }
                       }
-                      if (v[defaultValue['organizationalStructureNoteVOList']] == null) {
+                      if (v[jlConfig.defaultValue[
+                              'organizationalStructureNoteVOList']] ==
+                          null) {
                         renewState();
                         return;
-                      } else if (v[defaultValue['organizationalStructureNoteVOList']]
-                          is List) {
-                        if (v[defaultValue['organizationalStructureNoteVOList']].length ==
+                      } else if (v[jlConfig.defaultValue[
+                          'organizationalStructureNoteVOList']] is List) {
+                        if (v[jlConfig.defaultValue[
+                                    'organizationalStructureNoteVOList']]
+                                .length ==
                             0) {
                           renewState();
                           setState(() {});
@@ -298,7 +384,8 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
                       }
                       widget.controller?.stack.add({});
                       // print('log___dangqinav)
-                      Contents.add(v[defaultValue['organizationalStructureNoteVOList']]);
+                      Contents.add(v[jlConfig
+                          .defaultValue['organizationalStructureNoteVOList']]);
                       renewState();
                       pageIndex++;
                       _pageController.animateToPage(
@@ -319,15 +406,20 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
 ///每一页面的列表组件
 class pl extends StatefulWidget {
   dynamic listData;
-  Function callback;
+  Function(dynamic, dynamic, dynamic, dynamic) callback;
   dynamic name;
-  pl({required this.listData, required this.callback, required this.name});
+  bool forbid;
+  pl(
+      {required this.listData,
+      required this.callback,
+      required this.name,
+      required this.forbid});
   @override
   State<pl> createState() => _pl();
 }
 
 class _pl extends State<pl> {
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -350,30 +442,83 @@ class _pl extends State<pl> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Visibility(
-                        visible: widget.name == item[defaultValue['name']],
-                        child: Icon(
-                          Icons.navigate_next_rounded,
-                          color: TDTheme.of(context).brandNormalColor,
-                        )),
+                        visible:
+                            widget.name == item[jlConfig.defaultValue['name']],
+                        child: Icon(Icons.navigate_next_rounded, color: () {
+                          ///正常模式
+                          if (!widget.forbid) {
+                            return widget.name ==
+                                    item[jlConfig.defaultValue['name']]
+                                ? TDTheme.of(context).brandNormalColor
+                                : null;
+                          }
+
+                          ///禁止模式
+                          return widget.name ==
+                                      item[jlConfig.defaultValue['name']] &&
+                                  item[jlConfig.defaultValue['forbid']] ==
+                                      jlConfig.forbidValue
+                              ? Colors.grey
+                              : TDTheme.of(context).brandNormalColor;
+                        }())),
                     TDText(
-                      fontWeight: FontWeight.w400,
-                      item[defaultValue['name']],
-                      style: TextStyle(
-                        color: widget.name == item[defaultValue['name']]
-                            ? TDTheme.of(context).brandNormalColor
-                            : null,
-                      ),
-                    )
+                        fontWeight: FontWeight.w400,
+                        item[jlConfig.defaultValue['name']],
+                        style: TextStyle(color: () {
+                          if (!widget.forbid) {
+                            return widget.name ==
+                                    item[jlConfig.defaultValue['name']]
+                                ? TDTheme.of(context).brandNormalColor
+                                : null;
+                          }
+
+                          if (widget.name ==
+                                  item[jlConfig.defaultValue['name']] &&
+                              !item[jlConfig.defaultValue['forbid']] ==
+                                  jlConfig.forbidValue) {
+                            return TDTheme.of(context).brandNormalColor;
+                          }
+                           if (widget.name ==
+                                  item[jlConfig.defaultValue['name']] &&
+                              item[jlConfig.defaultValue['forbid']] ==
+                                  jlConfig.forbidValue) {
+                            return null;
+                          }
+                          // return widget.name ==
+                          //             item[jlConfig.defaultValue['name']] &&
+                          //         item[jlConfig.defaultValue['forbid']] ==
+                          //             jlConfig.forbidValue
+                          //     ? TDTheme.of(context).brandNormalColor
+                          //     : null;
+
+                        }(), fontStyle: () {
+                          if (!widget.forbid) {
+                            return null;
+                          }
+                          return item[jlConfig.defaultValue['forbid']] ==
+                                  jlConfig.forbidValue
+                              ? FontStyle.italic
+                              : null;
+                        }()), textColor: () {
+                      if (!widget.forbid) {
+                        return Colors.black;
+                      }
+                      return item[jlConfig.defaultValue['forbid']] ==
+                              jlConfig.forbidValue
+                          ? Colors.grey
+                          : Colors.black;
+                    }())
                   ],
                 )),
             onTap: () {
               //选中后返回选中列表的数据
-      
+
               widget.callback(
-                item[defaultValue['organizationalStructureNoteVOList']],
-                item[defaultValue['name']], 
-                item[defaultValue['id']]
-                );
+                  item[jlConfig
+                      .defaultValue['organizationalStructureNoteVOList']],
+                  item[jlConfig.defaultValue['name']],
+                  item[jlConfig.defaultValue['id']],
+                  item[jlConfig.defaultValue['forbid']]);
             },
           );
         });
