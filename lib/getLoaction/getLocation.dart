@@ -80,7 +80,7 @@ class getLocation {
   }
 
   // 返回经纬度
-  static Future<Map<String, num?>> getCor(context, {Duration? setTime}) async {
+  static Future<Map<String, num?>> getCor({Duration? setTime}) async {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     var config =
@@ -132,15 +132,21 @@ class getLocation {
   static StreamSubscription? subscription;
 
   ///移动获取经纬度
-  static moveGetLo(Function(Position) callback) {
+  static moveGetLo(Function(Position) callback,{required Function(dynamic) onError,required Function() onDone}) {
     var config = AndroidSettings(
-        distanceFilter: 10,
+        distanceFilter: 1,
         forceLocationManager: true,
         timeLimit: const Duration(seconds: 2));
     positionStream = Geolocator.getPositionStream(locationSettings: config);
     subscription = positionStream!.listen((Position position) {
       callback(position);
-    });
+    },onError: (value){
+      onError(value);
+    },
+    onDone: (){
+      onDone();
+    }
+    );
   }
 
   static stopMoveGetLo() {
@@ -148,4 +154,23 @@ class getLocation {
       subscription?.cancel();
     }
   }
-}
+
+  static Timer? timer;
+  ///按照时间来获取经纬度
+  static startGetLoAboutTime(Duration duration,Function(Map<String,num?>) callback){
+    timer=Timer.periodic(duration, (timer) {
+    getCor(setTime: const Duration(seconds: 2)).then((value){
+      
+      value['time']=DateTime.now().millisecondsSinceEpoch;
+      callback(value);
+    });
+    });
+  }
+  static endGetLoAboutTime(){
+    if(timer!=null){
+      timer?.cancel();
+      timer=null;
+    }
+  }
+  }
+
