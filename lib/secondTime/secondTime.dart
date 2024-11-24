@@ -15,7 +15,6 @@ class StopController {
     startTime = DateTime.now();
     time = Timer.periodic(const Duration(seconds: 1), (timer) {
       init++;
-      print('log__$init');
       stop?.notifyListeners();
     });
   }
