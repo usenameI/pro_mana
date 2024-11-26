@@ -89,6 +89,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.18.0"
+  convex_bottom_bar:
+    dependency: transitive
+    description:
+      name: convex_bottom_bar
+      sha256: ebf0f3deb1e8e99374d844fee7485d2980ec502dedfaad395c12118477933aef
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.2.0"
   coordtransform_dart:
     dependency: transitive
     description:
@@ -219,6 +227,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.2"
+  flutter_floating_bottom_bar:
+    dependency: transitive
+    description:
+      name: flutter_floating_bottom_bar
+      sha256: "5aff247b2015837bd121b6c694fb30107ed5677cd74e3088f6a5a18e369bc0ec"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.2.1+1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -367,6 +383,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.19.0"
   js:
     dependency: transitive
     description:
@@ -755,6 +779,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.3.1"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: a39ddfb22b30c7cba620fec7dc682e46f151998febd25bca5519c17431084951
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "27.2.3"
+  syncfusion_flutter_datepicker:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_datepicker
+      sha256: "5af3301119607fe834ca0d222013102884e6644fc8324430a8ff56f73442e3d5"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "27.2.3"
   tdesign_flutter:
     dependency: transitive
     description:

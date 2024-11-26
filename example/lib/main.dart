@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:pro_mana/pro_mana.dart';
+import 'package:pro_mana/pro_mana_method_channel.dart';
 import 'package:pro_mana/simple_text_plugin.dart';
 
 void main() {
@@ -34,6 +35,9 @@ var s;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_)async{
+
+    });
   }
   
   @override
@@ -41,7 +45,14 @@ var s;
     // TODO: implement build
     return Scaffold(
       body: Center(
-        child: Text(SimpleTextPlugin.getText()),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(SimpleTextPlugin.getText()),
+            ElevatedButton(onPressed: ()async{
+
+            }, child:const Text('获取功能'))
+          ],) 
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -160,7 +161,6 @@ class getLocation {
   static startGetLoAboutTime(Duration duration,Function(Map<String,num?>) callback){
     timer=Timer.periodic(duration, (timer) {
     getCor(setTime: const Duration(seconds: 2)).then((value){
-      
       value['time']=DateTime.now().millisecondsSinceEpoch;
       callback(value);
     });
@@ -172,5 +172,13 @@ class getLocation {
       timer=null;
     }
   }
+
+  ///通过Android原生的方式去获取GPS经纬度，获取超过2秒后自动使用网络定位
+    static Future<Map?> get()async{
+    var locationMap =await const MethodChannel('pro_mana')
+    .invokeMethod<Map>('test');
+    return locationMap;
+  }
+
   }
 
