@@ -24,6 +24,7 @@ class LocationHelper(private val context: Context) : LocationListener {
     private val timeoutHandler = Handler(Looper.getMainLooper())
     private var isLocationReceived = false
     var mLocationCallBack: LocationCallBack? = null
+
     init {
         locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
@@ -35,6 +36,7 @@ class LocationHelper(private val context: Context) : LocationListener {
     }
 
     fun requestLocationPermissions(activity: Activity) {
+
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
              mLocationCallBack!!.setLocation(Location("custom_provider"),false)
@@ -88,6 +90,7 @@ class LocationHelper(private val context: Context) : LocationListener {
       locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10f, this, Looper.getMainLooper())
     }
     override fun onLocationChanged(location: Location) {
+ 
         // 当位置更新时调用
         val latitude = location.latitude
         val longitude = location.longitude

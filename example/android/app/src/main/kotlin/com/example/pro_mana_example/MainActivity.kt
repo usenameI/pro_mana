@@ -11,7 +11,8 @@ import com.example.pro_mana_example.LocationHelper
 import android.location.Location
 
 class MainActivity: FlutterActivity(),LocationHelper.LocationCallBack{
-     lateinit var locationHelper: LocationHelper;
+      var locationHelper: LocationHelper?=null;
+      var methodChannelResult: MethodChannel.Result? = null
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         println("ddddddddd")
@@ -20,7 +21,7 @@ class MainActivity: FlutterActivity(),LocationHelper.LocationCallBack{
              if (call.method == "test") {
         locationHelper = LocationHelper(this)
         locationHelper?.setLocationCallBack(this)
-        locationHelper.requestLocationPermissions(this)
+        locationHelper?.requestLocationPermissions(this)
                 result.success("文件不存在")
             } else {
                 result.notImplemented()
@@ -33,6 +34,7 @@ class MainActivity: FlutterActivity(),LocationHelper.LocationCallBack{
             val latitude = it.latitude
             val longitude = it.longitude
             // 处理获取到的经纬度
+            locationHelper=null;
             println("log__ggaaaaaLatitude: $latitude, Longitude: $longitude")
             // Toast.makeText(this, "Latitude: $latitude, Longitude: $longitude", Toast.LENGTH_SHORT).show()
         }

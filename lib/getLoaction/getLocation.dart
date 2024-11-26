@@ -133,7 +133,8 @@ class getLocation {
   static StreamSubscription? subscription;
 
   ///移动获取经纬度
-  static moveGetLo(Function(Position) callback,{required Function(dynamic) onError,required Function() onDone}) {
+  static moveGetLo(Function(Position) callback,
+      {required Function(dynamic) onError, required Function() onDone}) {
     var config = AndroidSettings(
         distanceFilter: 1,
         forceLocationManager: true,
@@ -141,13 +142,11 @@ class getLocation {
     positionStream = Geolocator.getPositionStream(locationSettings: config);
     subscription = positionStream!.listen((Position position) {
       callback(position);
-    },onError: (value){
+    }, onError: (value) {
       onError(value);
-    },
-    onDone: (){
+    }, onDone: () {
       onDone();
-    }
-    );
+    });
   }
 
   static stopMoveGetLo() {
@@ -157,28 +156,49 @@ class getLocation {
   }
 
   static Timer? timer;
+
   ///按照时间来获取经纬度
-  static startGetLoAboutTime(Duration duration,Function(Map<String,num?>) callback){
-    timer=Timer.periodic(duration, (timer) {
-    getCor(setTime: const Duration(seconds: 2)).then((value){
-      value['time']=DateTime.now().millisecondsSinceEpoch;
-      callback(value);
-    });
+  static startGetLoAboutTime(
+      Duration duration, Function(locationData?) callback) {
+    timer = Timer.periodic(duration, (timer) {
+      print("log__不在状态");
+      if (!activity) {
+        print("log__在状态");
+        getLocationForAndroid().then((value) {
+          callback(value);
+        });
+      }
     });
   }
-  static endGetLoAboutTime(){
-    if(timer!=null){
+
+  static endGetLoAboutTime() {
+    if (timer != null) {
       timer?.cancel();
-      timer=null;
+      timer = null;
     }
   }
 
+  static bool activity = false;
+
   ///通过Android原生的方式去获取GPS经纬度，获取超过2秒后自动使用网络定位
-    static Future<Map?> get()async{
-    var locationMap =await const MethodChannel('pro_mana')
-    .invokeMethod<Map>('test');
-    return locationMap;
+  static Future<locationData?> getLocationForAndroid() async {
+    print("log__完成了一切的东西之前$activity");
+    if (activity == true) {
+      return null;
+    }
+    activity = true;
+    var locationMap =
+        await const MethodChannel('pro_mana').invokeMethod<Map>('test');
+    activity = false;
+    print("log__完成了一切的东西$activity");
+    return locationData(
+        latitude: locationMap!['latitude'],
+        longitude: locationMap['longitude']);
   }
+}
 
-  }
-
+class locationData {
+  double latitude;
+  double longitude;
+  locationData({required this.latitude, required this.longitude});
+}

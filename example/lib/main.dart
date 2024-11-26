@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:pro_mana/getLoaction/getLocation.dart';
 import 'package:pro_mana/pro_mana.dart';
 import 'package:pro_mana/pro_mana_method_channel.dart';
 import 'package:pro_mana/simple_text_plugin.dart';
 
 void main() {
-  runApp( home());
+  runApp(home());
 }
 
-class home extends StatelessWidget{
+class home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -18,7 +19,6 @@ class home extends StatelessWidget{
       home: MyApp(),
     );
   }
-  
 }
 
 class MyApp extends StatefulWidget {
@@ -29,32 +29,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-var s;
+  var s;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_)async{
-
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {});
   }
-  
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(SimpleTextPlugin.getText()),
-            ElevatedButton(onPressed: ()async{
-
-            }, child:const Text('获取功能'))
-          ],) 
-      ),
+          child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(SimpleTextPlugin.getText()),
+          ElevatedButton(
+              onPressed: () async {
+                getLocation.startGetLoAboutTime(Duration(seconds: 1), (value) {
+                  print('log__${value}');
+                });
+                // getLocation.getLocationForAndroid().then((value) {
+                //   print('log__${value}');
+                // });
+              },
+              child: const Text('获取功能'))
+        ],
+      )),
     );
   }
-
 }

@@ -79,11 +79,12 @@ import android.location.Location
 class ProManaPlugin : FlutterPlugin, MethodCallHandler, ActivityAware ,LocationHelper.LocationCallBack{
     private lateinit var channel: MethodChannel
     private lateinit var activity: Activity
-    private lateinit var locationHelper: LocationHelper
+    var locationHelper: LocationHelper?=null
     private lateinit var result: MethodChannel.Result 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "pro_mana")
         channel.setMethodCallHandler(this)
+       
         locationHelper = LocationHelper(flutterPluginBinding.applicationContext)
           // locationHelper?.setLocationCallBack(this)
     }
@@ -95,8 +96,9 @@ class ProManaPlugin : FlutterPlugin, MethodCallHandler, ActivityAware ,LocationH
             "getPlatformVersion" -> {
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
             }"test"->{
-              locationHelper?.setLocationCallBack(this)
-              locationHelper.requestLocationPermissions(activity)
+                 println("log__jiujiujiujiujiujiujiujiujiujiujiu")
+                locationHelper?.setLocationCallBack(this)
+              locationHelper?.requestLocationPermissions(activity)
             // result.success("A这是一个测试的字符串")
             }
             else -> {
