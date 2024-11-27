@@ -48,9 +48,6 @@ class _MyAppState extends State<MyApp> {
           Text(SimpleTextPlugin.getText()),
           ElevatedButton(
               onPressed: () async {
-                getLocation.startGetLoAboutTime(Duration(seconds: 1), (value) {
-                  print('log__${value}');
-                });
                 // getLocation.getLocationForAndroid().then((value) {
                 //   print('log__${value}');
                 // });

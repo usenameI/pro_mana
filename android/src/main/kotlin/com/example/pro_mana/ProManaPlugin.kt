@@ -96,7 +96,6 @@ class ProManaPlugin : FlutterPlugin, MethodCallHandler, ActivityAware ,LocationH
             "getPlatformVersion" -> {
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
             }"test"->{
-                 println("log__jiujiujiujiujiujiujiujiujiujiujiu")
                 locationHelper?.setLocationCallBack(this)
               locationHelper?.requestLocationPermissions(activity)
             // result.success("A这是一个测试的字符串")

@@ -87,24 +87,32 @@ class getLocation {
     var config =
         AndroidSettings(forceLocationManager: true, timeLimit: setTime);
     var p;
-    try {
-      p = await Geolocator.getCurrentPosition(
-        locationSettings: config,
-      );
-    } catch (e) {
-      p = await Geolocator.getLastKnownPosition(
-          forceAndroidLocationManager: true);
-      if (p == null) {
-        return {
-          'latitude': null,
-          'longitude': null,
-        };
-      }
-    }
-    return {
-      'latitude': p?.latitude,
-      'longitude': p?.longitude,
-    };
+    // try {
+    //   p = await Geolocator.getCurrentPosition(
+    //     locationSettings: config,
+    //   );
+    // } catch (e) {
+    //   p = await Geolocator.getLastKnownPosition(
+    //       forceAndroidLocationManager: true);
+    //   if (p == null) {
+    //     return {
+    //       'latitude': null,
+    //       'longitude': null,
+    //     };
+    //   }
+    // }
+
+    final LocationSettings locationSettings = AndroidSettings(
+      forceLocationManager: true,
+      accuracy: LocationAccuracy.best,
+    );
+
+    final position = await Geolocator.getCurrentPosition(
+      locationSettings: locationSettings,
+    );
+    print('log__yes,you obtain this location information__$position');
+
+    return {'latitude': position.latitude, 'longitude': position.longitude};
   }
 
   ///计算经纬度的距离
@@ -136,9 +144,10 @@ class getLocation {
   static moveGetLo(Function(Position) callback,
       {required Function(dynamic) onError, required Function() onDone}) {
     var config = AndroidSettings(
-        distanceFilter: 1,
-        forceLocationManager: true,
-        timeLimit: const Duration(seconds: 2));
+      accuracy: LocationAccuracy.medium,
+      distanceFilter: 1,
+      forceLocationManager: true,
+    );
     positionStream = Geolocator.getPositionStream(locationSettings: config);
     subscription = positionStream!.listen((Position position) {
       callback(position);
@@ -153,47 +162,6 @@ class getLocation {
     if (subscription != null) {
       subscription?.cancel();
     }
-  }
-
-  static Timer? timer;
-
-  ///按照时间来获取经纬度
-  static startGetLoAboutTime(
-      Duration duration, Function(locationData?) callback) {
-    timer = Timer.periodic(duration, (timer) {
-      print("log__不在状态");
-      if (!activity) {
-        print("log__在状态");
-        getLocationForAndroid().then((value) {
-          callback(value);
-        });
-      }
-    });
-  }
-
-  static endGetLoAboutTime() {
-    if (timer != null) {
-      timer?.cancel();
-      timer = null;
-    }
-  }
-
-  static bool activity = false;
-
-  ///通过Android原生的方式去获取GPS经纬度，获取超过2秒后自动使用网络定位
-  static Future<locationData?> getLocationForAndroid() async {
-    print("log__完成了一切的东西之前$activity");
-    if (activity == true) {
-      return null;
-    }
-    activity = true;
-    var locationMap =
-        await const MethodChannel('pro_mana').invokeMethod<Map>('test');
-    activity = false;
-    print("log__完成了一切的东西$activity");
-    return locationData(
-        latitude: locationMap!['latitude'],
-        longitude: locationMap['longitude']);
   }
 }
 
