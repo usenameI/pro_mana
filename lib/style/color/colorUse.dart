@@ -41,6 +41,7 @@ static Color lightColor(context){
   return TDTheme.of(context).brandFocusColor;
 }
 
+  static Color maskColor=Color.fromRGBO(51, 51, 51, 0.5);
 
 
 }
