@@ -43,65 +43,45 @@ class getLocation {
     return false;
   }
 
-  //返回经纬度
-  static Future<Position> determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    var config = AndroidSettings(
-        forceLocationManager: true, timeLimit: const Duration(seconds: 2));
-    var p;
-    try {
-      p = await Geolocator.getCurrentPosition(
-        locationSettings: config,
-      );
-    } catch (e) {
-      p = await Geolocator.getLastKnownPosition(
-        forceAndroidLocationManager: true,
-      );
-    }
-    return p;
-  }
+  // //返回经纬度
+  // static Future<Position> determinePosition() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     // Permissions are denied forever, handle appropriately.
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //   // When we reach here, permissions are granted and we can
+  //   // continue accessing the position of the device.
+  //   var config = AndroidSettings(
+  //       forceLocationManager: true, timeLimit: const Duration(seconds: 2));
+  //   var p;
+  //   try {
+  //     p = await Geolocator.getCurrentPosition(
+  //       locationSettings: config,
+  //     );
+  //   } catch (e) {
+  //     p = await Geolocator.getLastKnownPosition(
+  //       forceAndroidLocationManager: true,
+  //     );
+  //   }
+  //   return p;
+  // }
 
   // 返回经纬度
-  static Future<Map<String, num?>> getCor({Duration? setTime}) async {
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    var config =
-        AndroidSettings(forceLocationManager: true, timeLimit: setTime);
-    var p;
-    // try {
-    //   p = await Geolocator.getCurrentPosition(
-    //     locationSettings: config,
-    //   );
-    // } catch (e) {
-    //   p = await Geolocator.getLastKnownPosition(
-    //       forceAndroidLocationManager: true);
-    //   if (p == null) {
-    //     return {
-    //       'latitude': null,
-    //       'longitude': null,
-    //     };
-    //   }
-    // }
-
+  static Future<locationData> getCor({Duration? setTime}) async {
     final LocationSettings locationSettings = AndroidSettings(
       forceLocationManager: true,
       accuracy: LocationAccuracy.best,
@@ -110,9 +90,7 @@ class getLocation {
     final position = await Geolocator.getCurrentPosition(
       locationSettings: locationSettings,
     );
-    print('log__yes,you obtain this location information__$position');
-
-    return {'latitude': position.latitude, 'longitude': position.longitude};
+    return locationData(latitude: position.latitude, longitude: position.longitude);
   }
 
   ///计算经纬度的距离
@@ -141,7 +119,7 @@ class getLocation {
   static StreamSubscription? subscription;
 
   ///移动获取经纬度
-  static moveGetLo(Function(Position) callback,
+  static moveGetLo(Function(locationData) callback,
       {required Function(dynamic) onError, required Function() onDone}) {
     var config = AndroidSettings(
       accuracy: LocationAccuracy.medium,
@@ -150,7 +128,7 @@ class getLocation {
     );
     positionStream = Geolocator.getPositionStream(locationSettings: config);
     subscription = positionStream!.listen((Position position) {
-      callback(position);
+      callback(locationData(latitude: position.latitude, longitude: position.longitude));
     }, onError: (value) {
       onError(value);
     }, onDone: () {
@@ -161,6 +139,7 @@ class getLocation {
   static stopMoveGetLo() {
     if (subscription != null) {
       subscription?.cancel();
+      subscription=null;
     }
   }
 }

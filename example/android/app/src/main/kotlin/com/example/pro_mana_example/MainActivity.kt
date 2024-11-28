@@ -35,7 +35,7 @@ class MainActivity: FlutterActivity(),LocationHelper.LocationCallBack{
             val longitude = it.longitude
             // 处理获取到的经纬度
             locationHelper=null;
-           x
+           
             // Toast.makeText(this, "Latitude: $latitude, Longitude: $longitude", Toast.LENGTH_SHORT).show()
         }
     }
