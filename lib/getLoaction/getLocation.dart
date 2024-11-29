@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pro_mana/permisstion/permisstion.dart';
 import 'package:pro_mana/style/color/colorUse.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
@@ -22,6 +23,7 @@ class getLocation {
     return true;
   }
 
+  
   ///检查手机定位服务是否开启同时开启定位服务
   static Future<bool> checkLocationPermission() async {
     var sta = await Permission.location.status;
@@ -30,6 +32,7 @@ class getLocation {
     } else {
       var end = await Permission.location.request();
       if (end.isGranted) {
+        // permisstion.batteryList();
         return true;
       } else {
         return false;
@@ -85,7 +88,8 @@ class getLocation {
     } else if (satelliteCount == 0) {
       s = SignStrength.none;
     }
-    if(signStrength!=s){
+    if(signalStrengthSwitch){
+          if(signStrength!=s){
       if(signStrength!=SignStrength.none&&signStrength!=SignStrength.weak&&s!=SignStrength.good&&s!=SignStrength.strong){
         signStrength=s;
         alertGPS();
@@ -93,6 +97,8 @@ class getLocation {
       signStrength=s;
       
     }
+    }
+
 
   
 
