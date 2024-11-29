@@ -88,7 +88,7 @@ class getLocation {
     if(signStrength!=s){
       if(signStrength!=SignStrength.none&&signStrength!=SignStrength.weak&&s!=SignStrength.good&&s!=SignStrength.strong){
         signStrength=s;
-      alertGPS();
+        alertGPS();
       }
       signStrength=s;
       
@@ -132,7 +132,6 @@ class getLocation {
   );
 
  Overlay.of(context!).insert(overlayEntry!);
-
   }
 
   ///开启信号强度变化提示---请放在main方法内
