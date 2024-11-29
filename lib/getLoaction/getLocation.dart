@@ -64,7 +64,7 @@ class getLocation {
   }
 
   ///当前信号状况
-  static SignStrength? signStrength;
+  static SignStrength? signStrength=SignStrength.good;
 
   ///信号强度变化监听开关
   static bool signalStrengthSwitch = false;
