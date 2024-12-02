@@ -51,7 +51,9 @@ dependencies:
   app_settings: ^5.1.1
   # #耗电管理
   # android_intent_plus: ^5.2.0
-
+  # 本地通知
+  flutter_local_notifications: ^18.0.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
