@@ -18,44 +18,51 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-
-FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 Future<void> initializeService() async {
+  permisstion.requestNotification();
   final service = FlutterBackgroundService();
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  /// OPTIONAL, using custom notification channel id
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    
-    'my_foreground', // id
-    'MY FOREGROUND SERVICE', // title
-    description:
-        'This channel is used for important notifications.', // description
-    importance: Importance.max, // importance must be at low or higher level
-    // lockscreenVisibility: NotificationVisibility.public,
-    playSound: true
-  );
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
 
-  flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-      // _isAndroidPermissionGranted();
-      // _requestPermissions();
-      await getLocation.checkLocationPermission();
-    await permisstion.requestNotification();
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  // /// OPTIONAL, using custom notification channel id
+  // const AndroidNotificationChannel channel = AndroidNotificationChannel(
 
-  if (Platform.isIOS || Platform.isAndroid) {
-    await flutterLocalNotificationsPlugin?.initialize(
-       const InitializationSettings(
-        iOS: DarwinInitializationSettings(),
-         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+  //   'my_foreground', // id
+  //   'MY FOREGROUND SERVICE', // title
+  //   description:
+  //       'This channel is used for important notifications.', // description
+  //   importance: Importance.max, // importance must be at low or higher level
+  //   // lockscreenVisibility: NotificationVisibility.public,
+  //   playSound: true
+  // );
 
-      ),
-    );
-  }
+  // flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  //     // _isAndroidPermissionGranted();
+  //     // _requestPermissions();
+  //     await getLocation.checkLocationPermission();
+  //   await permisstion.requestNotification();
 
-  await flutterLocalNotificationsPlugin
-      ?.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  // if (Platform.isIOS || Platform.isAndroid) {
+  //   await flutterLocalNotificationsPlugin?.initialize(
+  //      const InitializationSettings(
+  //       iOS: DarwinInitializationSettings(),
+  //        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+
+  //     ),
+  //   );
+  // }
+
+  // await flutterLocalNotificationsPlugin
+  //     ?.resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
 
   await service.configure(
     androidConfiguration: AndroidConfiguration(
@@ -111,10 +118,6 @@ void onStart(ServiceInstance service) async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   await preferences.setString("hello", "world");
 
-  /// OPTIONAL when use custom notification
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
       service.setAsForegroundService();
@@ -128,17 +131,18 @@ void onStart(ServiceInstance service) async {
   service.on('stopService').listen((event) {
     service.stopSelf();
   });
- int num=0;
+  int num = 0;
   // bring to foreground
   Timer.periodic(const Duration(seconds: 1), (timer) async {
     if (service is AndroidServiceInstance) {
       if (await service.isForegroundService()) {
-     getLocation.getCor().then((value){
+        getLocation.getCor().then((value) {
           print("log__经纬度${value.latitude}");
         });
-       num++;
+        num++;
 
         print("log__this is foreground service");
+
         /// OPTIONAL for use custom notification
         /// the notification id must be equals with AndroidConfiguration when you call configure() method.
         flutterLocalNotificationsPlugin.show(
@@ -147,18 +151,18 @@ void onStart(ServiceInstance service) async {
           'Awesome ${DateTime.now()}',
           const NotificationDetails(
             android: AndroidNotificationDetails(
-              'my_foreground',
-              'MY FOREGROUND SERVICE',
+              'my_foreground3',
+              'MY FOREGROUND SERVICE3',
               icon: '@mipmap/ic_launcher',
               ongoing: true,
-
-                    importance: Importance.max,
-      priority: Priority.max,
-      enableLights: true,
-      enableVibration: true,
-      showWhen: true,
-      visibility: NotificationVisibility.public,
-      styleInformation: BigTextStyleInformation('这是通知的详细内容，您可以在这里显示更多信息。'),
+              importance: Importance.low,
+              priority: Priority.max,
+              enableLights: true,
+              enableVibration: true,
+              showWhen: true,
+              visibility: NotificationVisibility.public,
+              styleInformation:
+                  BigTextStyleInformation('这是通知的详细内容，您可以在这里显示更多信息。'),
             ),
           ),
         );
@@ -168,11 +172,11 @@ void onStart(ServiceInstance service) async {
         //   title: "My App Service",
         //   content: "Updated at ${DateTime.now()}",
         // );
-      }else{
+      } else {
         //  getLocation.getCor().then((value){
         //   print("log__经纬度${value.latitude}");
         // });
-         print("log__this is background service");
+        print("log__this is background service");
       }
     }
 
@@ -208,16 +212,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   String text = "Stop Service";
 
   @override
-  initState(){
+  initState() {
     super.initState();
   }
-
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -272,13 +272,15 @@ class _MyAppState extends State<MyApp> {
                 });
               },
             ),
-            ElevatedButton(onPressed: (){
-              // permisstion.batteryList();
-               final intent = AndroidIntent(
-    action: 'android.settings.BATTERY_OPTIMIZATION_SETTINGS',
-  );
-  intent.launch();
-            }, child: Text('电池')),
+            ElevatedButton(
+                onPressed: () {
+                  // permisstion.batteryList();
+                  final intent = AndroidIntent(
+                    action: 'android.settings.BATTERY_OPTIMIZATION_SETTINGS',
+                  );
+                  intent.launch();
+                },
+                child: Text('电池')),
             const Expanded(
               child: LogView(),
             ),

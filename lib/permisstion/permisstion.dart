@@ -3,19 +3,6 @@ import 'package:app_settings/app_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class permisstion{
-  ///检查并打开存储权限
-//  static Future<void> requestPermissions() async {
-//   var status = await Permission.storage.status;
-//   if (!status.isGranted) {
-//     print('log__有权限');
-//     await Permission.storage.request();
-//   }else{
-// print('log__无权限');
-//   }
-
-
-// }
-
   ///检查并获取通知权限的同时并引导用户打开锁屏和横幅权限
  static  Future<bool> requestNotification()async{
   PermissionStatus resPermission;
@@ -26,6 +13,7 @@ class permisstion{
           AppSettings.openAppSettings(type: AppSettingsType.notification);
         }
     }
+    
     if(resPermission.isDenied){
       return false;
     }else if(resPermission.isGranted){
