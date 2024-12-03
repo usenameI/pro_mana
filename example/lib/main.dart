@@ -21,7 +21,7 @@ Future<void> main() async {
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 Future<void> initializeService() async {
-  permisstion.requestNotification();
+  // permisstion.requestNotification();
   final service = FlutterBackgroundService();
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');

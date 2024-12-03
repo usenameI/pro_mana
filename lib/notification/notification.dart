@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pro_mana/permisstion/permisstion.dart';
 
@@ -6,8 +7,8 @@ import 'package:pro_mana/permisstion/permisstion.dart';
 class notification {
   static bool grand = false;
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
-  static initNotification() async {
-    grand = await permisstion.requestNotification();
+  static initNotification(BuildContext context) async {
+    grand = await permisstion.requestNotification(context);
     if (!grand) {
       return;
     }
