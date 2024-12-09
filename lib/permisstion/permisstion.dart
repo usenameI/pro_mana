@@ -7,38 +7,41 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 class permisstion{
   ///检查并获取通知权限的同时并引导用户打开锁屏和横幅权限
- static  Future<bool> requestNotification(BuildContext context)async{
+ static   requestNotification(BuildContext context,{required Function(bool) callback}) async {
   PermissionStatus resPermission;
      resPermission = await Permission.notification.status;
     if(resPermission.isDenied){
+      permissionPrompt(context: context, content: '');
          resPermission= await Permission.notification.request();
+         overlayEntry?.remove();
+         overlayEntry=null;
         if(resPermission.isGranted){
-          prompt(context);
+          prompt(context:context,content: "打开横幅和锁屏通知有更好的体验",callback: (p0) {
+            callback(p0);
+          },);
           // AppSettings.openAppSettings(type: AppSettingsType.notification);
         }
-    }
-    
-    if(resPermission.isDenied){
-      return false;
+    }else if(resPermission.isPermanentlyDenied){
+     
+        prompt(context: context,content: "多次拒绝通知权限请求只能通过手动打开,打开通知、横幅、和锁屏",callback: (p0) {
+          callback(p0);
+        },);
     }else if(resPermission.isGranted){
-      return true;
-    }else{
-      return false;
+      callback(true);
     }
+  
   }
 
-  ///引导用户手动打开电池优化白名单避免后台杀进程
-  static batteryList(){
-  //     final intent = inte.AndroidIntent(
-  //   action: 'android.settings.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS',
-  //   package: 'pro_mana_example', // 替换为您的应用包名
-  // );
-  // intent.launch();
-  }
+
+ static OverlayEntry? overlayEntry;
 
   ///prompt UI
- static prompt(BuildContext context){
-    OverlayEntry? overlayEntry;
+  ///
+  ///[context]
+  ///
+  ///[content] is [String] to descipt about prompt information.
+ static prompt({required BuildContext context,required String content,required Function(bool) callback}){
+   
        overlayEntry = OverlayEntry(
     builder: (context){
       return Positioned.fill(
@@ -46,15 +49,45 @@ class permisstion{
           color: colorUse.maskColor,
           child: Center(child: TDConfirmDialog(
               title: '提示',
-              content:'打开横幅和锁屏通知有更好的体验',
+              content:content,
               buttonText: '前往设置',
-              action: () {
+              action: () async {
                 overlayEntry?.remove();
                  overlayEntry=null;
-                 AppSettings.openAppSettings(type: AppSettingsType.notification);
+                 AppSettings.openAppSettings(type: AppSettingsType.notification,asAnotherTask:false).then((value){
+                    print('log___nidakaile shezhiyemian');
+                });
+                  Permission.notification.status;
               },
             ),),
       ));
+    }
+  );
+
+ Overlay.of(context).insert(overlayEntry!);
+  }
+
+   static permissionPrompt({required BuildContext context,required String content}){
+       overlayEntry = OverlayEntry(
+    builder: (context){
+      return Positioned(
+        top: 50,
+        left: 20,
+        right: 20,
+        child:
+        Material(
+          child: Container(
+          color: colorUse.progress,
+          child: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 30,),
+              Text('如果不开启你将无法使用通知权限去提醒你'),
+              SizedBox(height: 30,),
+            ],),
+        ),
+        )
+         );
     }
   );
 

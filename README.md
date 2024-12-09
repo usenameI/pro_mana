@@ -30,3 +30,4 @@
     18、列表底部菜单 listBar
     19、秒表功能 secondTime
     12、消息通知功能 notificaiton
+    13、监听器功能（监听app前台后台状态）observer
