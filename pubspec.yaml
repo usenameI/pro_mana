@@ -2,7 +2,7 @@ name: pro_mana
 description: "A new Flutter plugin project."
 version: 0.0.1
 homepage: https://github.com/usenameI/pro_mana.git
-publish_to: http://localhost:8080
+publish_to: none  # 添加这一行
 environment:
   sdk: ^3.5.3
   flutter: '>=3.3.0'
@@ -22,7 +22,11 @@ dependencies:
   # 裁剪
   crop_your_image: ^1.1.0
   # 组件库
-  tdesign_flutter: ^0.1.7
+  # tdesign_flutter: ^0.1.7
+  tdesign_flutter:
+    git:
+      url: 'https://github.com/bomb-bomb/tdesign-flutter'
+      path: 'tdesign-component'
   #微信相册
   wechat_assets_picker: ^9.3.3
   #微信相机
@@ -53,7 +57,8 @@ dependencies:
   # android_intent_plus: ^5.2.0
   # 本地通知
   flutter_local_notifications: ^18.0.1
-  
+  #路径获取
+  path_provider: ^2.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
