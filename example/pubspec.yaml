@@ -23,6 +23,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   # #json格式转化功能
   # json_dynamic_widget: ^7.3.1+13
+  #浮窗
+  floating: ^5.0.1
 dev_dependencies:
   integration_test:
     sdk: flutter

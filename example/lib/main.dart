@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pro_mana_example/Sample.dart';
 // import 'package:json_dynamic_widget/json_dynamic_widget.dart';
-import 'package:pro_mana_example/component/CarouselViewTest/CarouselViewTest.dart';
-import 'package:pro_mana_example/page.dart';
 import 'package:pro_mana_example/pageSample.dart';
 
 void main(){

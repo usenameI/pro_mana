@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pro_mana/style/color/colorUse.dart';
+import 'package:pro_mana/tool/tool.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ///页面自定义组件
@@ -69,4 +70,157 @@ class customWidget {
       ),
     ));
   }
+}
+
+///custom widget do dismiss keyboard for [Container]
+class CContainer extends StatelessWidget {
+  CContainer(
+      {super.key,
+      this.keys,
+      this.alignment,
+      this.padding,
+      this.color,
+      this.decoration,
+      this.foregroundDecoration,
+      this.width,
+      this.height,
+      this.constraints,
+      this.margin,
+      this.transform,
+      this.transformAlignment,
+      this.child,
+      this.clipBehavior = Clip.none});
+  Key? keys;
+  AlignmentGeometry? alignment;
+  EdgeInsetsGeometry? padding;
+  Color? color;
+  Decoration? decoration;
+  Decoration? foregroundDecoration;
+  double? width;
+  double? height;
+  BoxConstraints? constraints;
+  EdgeInsetsGeometry? margin;
+  Matrix4? transform;
+  AlignmentGeometry? transformAlignment;
+  Widget? child;
+  Clip clipBehavior;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Tool.dismissKeyboardWhenClick(
+        child: Container(
+      key: keys,
+      alignment: alignment,
+      padding: padding,
+      color: color,
+      decoration: decoration,
+      foregroundDecoration: foregroundDecoration,
+      width: width,
+      height: height,
+      constraints: constraints,
+      margin: margin,
+      transform: transform,
+      transformAlignment: transformAlignment,
+      clipBehavior: clipBehavior,
+      child: child,
+    ));
+  }
+}
+
+///custom widget do dismiss keyboard for [SizedBox]
+class CSizedBox extends StatelessWidget {
+  CSizedBox({super.key, this.keys, this.width, this.height, this.child});
+  Key? keys;
+  double? width;
+  double? height;
+  Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Tool.dismissKeyboardWhenClick(
+        child: SizedBox(
+      key: keys,
+      width: width,
+      height: height,
+      child: child,
+    ));
+  }
+}
+
+///custom widget do dismiss keyboard for [Column]
+class CColumn extends StatelessWidget {
+  CColumn({
+    super.key,
+    this.keys,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.mainAxisSize = MainAxisSize.max,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.textDirection,
+    this.verticalDirection = VerticalDirection.down,
+    this.textBaseline,
+    this.children = const <Widget>[],
+  });
+
+  Key? keys;
+  MainAxisAlignment mainAxisAlignment;
+  MainAxisSize mainAxisSize;
+  CrossAxisAlignment crossAxisAlignment;
+  TextDirection? textDirection;
+  VerticalDirection verticalDirection;
+  TextBaseline? textBaseline;
+  List<Widget> children;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Tool.dismissKeyboardWhenClick(
+        child: Column(
+      key: keys,
+      mainAxisAlignment: mainAxisAlignment,
+      mainAxisSize: mainAxisSize,
+      crossAxisAlignment: crossAxisAlignment,
+      textDirection: textDirection,
+      textBaseline: textBaseline,
+      children: children,
+    ));
+  }
+}
+
+///custom widget do dismiss keyboard for [Row]
+class CRow extends StatelessWidget{
+  CRow({
+    super.key,
+    this.keys,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.mainAxisSize = MainAxisSize.max,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.textDirection,
+    this.verticalDirection = VerticalDirection.down,
+    this.textBaseline,
+    this.children = const <Widget>[],
+  });
+        Key? keys;
+  MainAxisAlignment mainAxisAlignment;
+  MainAxisSize mainAxisSize;
+  CrossAxisAlignment crossAxisAlignment;
+  TextDirection? textDirection;
+  VerticalDirection verticalDirection;
+  TextBaseline? textBaseline;
+  List<Widget> children;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Tool.dismissKeyboardWhenClick(child: Row(
+      key:keys,
+      mainAxisAlignment:mainAxisAlignment,
+      mainAxisSize:mainAxisSize,
+      crossAxisAlignment:crossAxisAlignment,
+      textDirection:textDirection,
+      verticalDirection:verticalDirection,
+      textBaseline:textBaseline,
+      children:children,
+    ));
+  }
+  
 }

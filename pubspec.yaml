@@ -24,9 +24,11 @@ dependencies:
   # 组件库
   # tdesign_flutter: ^0.1.7
   tdesign_flutter:
-    git:
-      url: 'https://github.com/bomb-bomb/tdesign-flutter'
-      path: 'tdesign-component'
+    path: ../tdesign-flutter-0.1.7/tdesign-flutter-0.1.7/tdesign-component
+  # tdesign_flutter:
+  #   git:
+  #     url: 'https://github.com/bomb-bomb/tdesign-flutter'
+  #     path: 'tdesign-component'
   #微信相册
   wechat_assets_picker: ^9.3.3
   #微信相机

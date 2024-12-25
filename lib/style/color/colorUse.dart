@@ -40,6 +40,10 @@ class colorUse{
 static Color lightColor(context){
   return TDTheme.of(context).brandFocusColor;
 }
+///TDesign的蓝色主调颜色
+static Color primary(context){
+  return TDTheme.of(context).brandNormalColor;
+}
 
   static Color maskColor=const Color.fromRGBO(51, 51, 51, 0.5);
 
