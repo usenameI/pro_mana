@@ -25,15 +25,19 @@ dependencies:
   # json_dynamic_widget: ^7.3.1+13
   #浮窗
   floating: ^5.0.1
+  video_trimmer: ^4.0.1
+  file_picker: ^8.0.7
 dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_test:
     sdk: flutter
+  
 
-
-  flutter_lints: ^4.0.0
-
+  flutter_lints: ^5.0.0
+dependency_overrides: 
+  path: ^1.9.1 
+  intl: ^0.20.0
 flutter:
 
   uses-material-design: true

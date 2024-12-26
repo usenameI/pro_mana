@@ -18,6 +18,10 @@
     "浮动窗口":{
         "title":"浮动窗口",
         "page":"floating"
+    },
+    "视频剪切":{
+        "title":"视频剪切",
+        "page":"Trimmer"
     }
     
 }
