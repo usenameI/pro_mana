@@ -78,7 +78,7 @@ class getLocation {
   ///判断gps信号强度
   static determineSignStrength(Position p) async {
     var satelliteCount = (p as AndroidPosition).satelliteCount;
-    var s;
+    SignStrength? s;
     if (satelliteCount > 7) {
       s = SignStrength.strong;
     } else if (satelliteCount > 3 && satelliteCount < 8) {

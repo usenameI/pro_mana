@@ -21,7 +21,6 @@ class recursion {
 
     if (data is Map) {
       if (data[conditionKey] == conditionValue) {
-        print('log__${data[conditionKey]}:$conditionValue');
         value = data[keyName];
       } else {
         for (var entry in data.entries) {

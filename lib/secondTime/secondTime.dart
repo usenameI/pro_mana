@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -55,7 +54,7 @@ class stopWatch extends StatelessWidget {
 class secondTime extends StatefulWidget {
   Function callBack;
   int setSecond;
-  secondTime({this.setSecond = 10, required this.callBack});
+  secondTime({super.key, this.setSecond = 10, required this.callBack});
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -97,6 +96,6 @@ class _MyAppState extends State<secondTime> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return TDText('累计时间: ${init}秒');
+    return TDText('累计时间: $init秒');
   }
 }

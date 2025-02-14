@@ -2,12 +2,13 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 ///裁剪图片
 class caijian extends StatefulWidget {
   dynamic path;
-  caijian({required this.path});
+  caijian({super.key, required this.path});
   @override
   State<caijian> createState() {
     // TODO: implement createState
@@ -74,7 +75,13 @@ class _caijian extends State<caijian> {
               future: fileToUint8List(widget.path),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return Crop(
+                  return 
+                  Container(
+                    color: Colors.black,
+                    padding:const EdgeInsets.only(left: 30,right: 30),
+                    child: Crop(
+                      maskColor:const Color.fromARGB(176, 0, 0, 0),
+                      baseColor: Colors.black,
                           image: snapshot.data as Uint8List,
                           controller: _controller,
                           onCropped: (image) {
@@ -82,13 +89,13 @@ class _caijian extends State<caijian> {
                             isClick=true;
                             int timestampInMilliseconds = DateTime.now().millisecondsSinceEpoch;
                             saveUint8ListToFile(image,'$timestampInMilliseconds.png');
-
-                          });
+                          }),
+                  );
                 }
                 return const SizedBox();
               },
             )),
-           const SizedBox(height: 10,),
+           const SizedBox(height: 50,),
           Wrap(
             children: [
               TDButton(type: TDButtonType.text,text: '16:9',
@@ -120,7 +127,7 @@ class _caijian extends State<caijian> {
           ),
             TDButton(
               text: '裁剪',
-                  disabled:!isClick,
+              disabled:!isClick,
               width: double.infinity,
               margin: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
               theme: TDButtonTheme.primary,
@@ -134,8 +141,7 @@ class _caijian extends State<caijian> {
               },
               )
           ],
-        ))))
-;
+        ))));
   }
 
   Future<Uint8List> fileToUint8List(String filePath) async {
@@ -151,7 +157,7 @@ class _caijian extends State<caijian> {
   ///将数据存进沙盒
 Future<void> saveUint8ListToFile(Uint8List data, String fileName) async {
   // 获取缓存目录
-  final directory = Directory('/data/user/0/com.example.qmw_project/cache/');
+   final directory = await getTemporaryDirectory();
   
   // 确保目录存在
   if (!await directory.exists()) {

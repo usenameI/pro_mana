@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:pro_mana_example/Sample.dart';
 // import 'package:json_dynamic_widget/json_dynamic_widget.dart';
 import 'package:pro_mana_example/pageSample.dart';
-
 void main(){
   runApp(const MyApp());
 }
@@ -52,6 +51,29 @@ class _list extends State<list>{
     });
   }
 
+
+// WebViewController controller = WebViewController()
+//   ..setJavaScriptMode(JavaScriptMode.unrestricted)
+//   ..setNavigationDelegate(
+//     NavigationDelegate(
+//       onProgress: (int progress) {
+//         // Update loading bar.
+//       },
+//       onPageStarted: (String url) {},
+//       onPageFinished: (String url) {},
+//       onHttpError: (HttpResponseError error) {},
+//       onWebResourceError: (WebResourceError error) {},
+//       onNavigationRequest: (NavigationRequest request) {
+//         if (request.url.startsWith('https://www.youtube.com/')) {
+//           return NavigationDecision.prevent;
+//         }
+//         return NavigationDecision.navigate;
+//       },
+//     ),
+//   )
+//   ..loadRequest(Uri.parse(''));
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -59,6 +81,7 @@ class _list extends State<list>{
       appBar: AppBar(
         centerTitle: true,
         title: const Text('sample'),),
+        // body: WebViewWidget(controller: controller),
       body: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {

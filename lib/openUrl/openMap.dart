@@ -5,6 +5,8 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:coordtransform_dart/coordtransform_dart.dart';
 
+  Duration showTime=const Duration(milliseconds: 300);
+
 /// 高德地图调用
 Future openAmap(context, dynamic longitude, dynamic latitude,
     {required address, bool showErr = true}) async {
@@ -15,10 +17,10 @@ Future openAmap(context, dynamic longitude, dynamic latitude,
  var url = 'amapuri://route/plan/?did=&dlat=${los[1]}&dlon=${los[0]}&dname=$address&dev=0&t=0';
     try{
       await launchUrl(Uri.parse(url));
-    }on Exception catch (e){
+    }on Exception {
       if (showErr) {
 
-      TDToast.showFail('未安装高德地图', context: context);
+      TDToast.showFail('未安装高德地图', context: context,duration: showTime);
       }
     }
   }else if(Platform.isIOS){
@@ -26,9 +28,9 @@ Future openAmap(context, dynamic longitude, dynamic latitude,
     url = Uri.encodeFull(url);
        try{
       await launchUrl(Uri.parse(url));
-    }on Exception catch (e){
+    }on Exception {
       if (showErr) {
-      TDToast.showFail('未安装高德地图', context: context);
+      TDToast.showFail('未安装高德地图', context: context,duration: showTime);
       }
     }
   }
@@ -46,9 +48,9 @@ Future<bool> openTencentMap(context, dynamic longitude, dynamic latitude,
   }
   try {
     await launch(url);
-  } on Exception catch (e) {
+  } on Exception {
     if (showErr) {
-      TDToast.showFail('未安装腾讯地图', context: context);
+      TDToast.showFail('未安装腾讯地图', context: context,duration: showTime);
     }
     return false;
   }
@@ -67,9 +69,9 @@ Future<bool> openBaiduMap(context, dynamic longitude, dynamic latitude,
   }
   try {
     await launch(url);
-  } on Exception catch (e) {
+  } on Exception {
     if (showErr) {
-      TDToast.showFail('未安装百度地图', context: context);
+      TDToast.showFail('未安装百度地图', context: context,duration: showTime);
     }
     return false;
   }
@@ -137,7 +139,7 @@ openMapFromApp(context,
             )
           ],
         ),
-        buttons: [],
+        buttons: const [],
       );
     },
   );

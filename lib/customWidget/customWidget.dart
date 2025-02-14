@@ -36,30 +36,51 @@ class customWidget {
 
   ///标题栏
   static titleBar(String title,
-      {List rightBt = const [], Function(int)? onTap}) {
-    return TDNavBar(
+      {List rightBt = const [], Function(int)? onTap,required Function() exit}) {
+    return 
+    Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(top: 10),
+      child: TDNavBar(
+      padding: EdgeInsets.all(0),
+      leftBarItems:[
+        TDNavBarItem(
+          iconWidget: TDButton(
+            style: TDButtonStyle(
+              backgroundColor: Colors.white
+            ),
+            onTap: () {
+              exit();
+            },
+            child: Icon(Icons.arrow_back_ios_new),
+          )
+        )
+      ],
         height: 48,
         titleFontWeight: FontWeight.w600,
         title: title,
         screenAdaptation: false,
-        useDefaultBack: true,
+        useDefaultBack: false,
         rightBarItems: rightBt.map((e) {
           return TDNavBarItem(iconWidget: e);
-        }).toList());
+        }).toList()),
+    )
+    ;
   }
-
   ///页面组件
   static pageBody(
       {required String title,
       required Widget child,
       rightBts = const [],
-      Function(int)? ontap}) {
+      Function(int)? ontap,
+      required Function() exit
+      }) {
     return SafeArea(
         child: Container(
       color: colorUse.bc,
       child: Column(
         children: [
-          titleBar(title, rightBt: rightBts, onTap: ontap),
+          titleBar(title, rightBt: rightBts, onTap: ontap,exit:exit),
           Expanded(
             child: Container(
               color: colorUse.bc,
@@ -200,7 +221,7 @@ class CRow extends StatelessWidget{
     this.textBaseline,
     this.children = const <Widget>[],
   });
-        Key? keys;
+  Key? keys;
   MainAxisAlignment mainAxisAlignment;
   MainAxisSize mainAxisSize;
   CrossAxisAlignment crossAxisAlignment;
@@ -224,3 +245,16 @@ class CRow extends StatelessWidget{
   }
   
 }
+
+
+class customStep{
+ static Widget show(List<TDStepsItemData> steps){
+    return TDSteps(
+              steps:steps,
+              direction: TDStepsDirection.vertical,
+              activeIndex: 2,
+              readOnly: true,
+              verticalSelect: false,);
+  }
+}
+

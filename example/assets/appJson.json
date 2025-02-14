@@ -22,6 +22,27 @@
     "视频剪切":{
         "title":"视频剪切",
         "page":"Trimmer"
+    },
+    "底部抽屉":{
+        "title":"底部抽屉",
+        "page":"BottomDragge" 
+    },
+    "模态跳转":{
+        "title":"模态跳转",
+        "page":"ModelJump"
+    }
+    ,
+    "隐藏展开选择组件":{
+        "title":"隐藏展开选择组件",
+        "page":"ExtensionComponent"
+    },
+    "展示3d建模":{
+        "title":"展示3d建模",
+        "page":"Model3d"
+    },
+    "涂写签名":{
+        "title":"涂写签名",
+        "page":"Graffiti"
     }
     
 }

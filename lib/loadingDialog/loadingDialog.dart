@@ -18,7 +18,8 @@ class LoadingDailag {
         return DialogWidget(
           dialogController: dialogController,
           onSuccess: onSuccess,
-          onExit: onExit, autoExit: autoExit,
+          onExit: onExit,
+          autoExit: autoExit,
         );
       },
     );
@@ -40,6 +41,8 @@ class TimeController extends ChangeNotifier {
   int count = 0;
   int current = 0;
   String title = '';
+
+  ///设置加载弹窗的内容
   set({int? count, int? current, String? title}) {
     this.count = count ?? this.count;
     this.current = current ?? this.current;
@@ -72,7 +75,7 @@ class DialogWidget extends StatefulWidget {
   bool autoExit;
 
   DialogWidget(
-      {required this.dialogController,
+      {super.key, required this.dialogController,
       required this.onSuccess,
       required this.onExit,
       required this.autoExit});
@@ -140,16 +143,20 @@ class _DialogWidget extends State<DialogWidget> {
                 child: Consumer<TimeController>(
                   builder: (context, value, child) {
                     widget.dialogController.timeState = value;
-                    return 
-                    TDText.rich(TextSpan(children: [
-                      const WidgetSpan(child: TDLoading(
-                      size: TDLoadingSize.large,
-                      icon: TDLoadingIcon.circle,
-                    )),
-                    const WidgetSpan(child: SizedBox(width: 10,)),
-                    TDTextSpan(text: '${value.title} ${value.count}/${value.current}')
-                    ]))
-                    ;
+                    return TDText.rich(TextSpan(children: [
+                      const WidgetSpan(
+                          child: TDLoading(
+                        size: TDLoadingSize.large,
+                        icon: TDLoadingIcon.circle,
+                      )),
+                      const WidgetSpan(
+                          child: SizedBox(
+                        width: 10,
+                      )),
+                      TDTextSpan(
+                          text:
+                              '${value.title} ${value.count}/${value.current}')
+                    ]));
                   },
                 ),
               ),

@@ -9,18 +9,18 @@ class ListBarController {
   int listNum = 0;
   EasyRefreshController? erController;
   ListController? listController;
-  bool isHidden=true;
+  bool isHidden = true;
+
   ///刷新
   Future<void> manualUpdataList(int listNum) async {
     this.listNum = listNum;
     listController?.update();
   }
 
-  setState(bool state){
-    isHidden=state;
-    listController?.update();    
+  setState(bool state) {
+    isHidden = state;
+    listController?.update();
   }
-  
 }
 
 class ListController extends ChangeNotifier {
@@ -38,7 +38,7 @@ class listBar extends StatefulWidget {
   Widget Function(BuildContext, int) widgetList;
 
   listBar(
-      {required this.onLoad,
+      {super.key, required this.onLoad,
       required this.onRefresh,
       required this.widgetList,
       required this.controller,
@@ -78,105 +78,98 @@ class _listBar extends State<listBar> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return
-    ChangeNotifierProvider(
-            create: (context) => ListController(),
-            child: Consumer<ListController>(
-              builder: (context, value, child) {
-                widget.controller.listController = value;
-                return BottomBar(
-      clip: Clip.none,
-      fit: StackFit.expand,
-      icon: (width, height) => Center(
-        child: IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: null,
-          icon: Icon(
-            Icons.arrow_upward_rounded,
-            color: colors[currentPage],
-            size: width,
-          ),
-        ),
-      ),
-      borderRadius: BorderRadius.circular(10),
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.decelerate,
-      showIcon: false,
-      width: MediaQuery.of(context).size.width,
-      barColor: PairWithWhite.hjl,
-      // barColor: Colors.transparent,
-      start: 3,
-      end: 0,
-      offset: 10,
-      barAlignment: Alignment.bottomCenter,
-      iconHeight: 30,
-      iconWidth: 30,
-      reverse: false,
-      barDecoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      iconDecoration: BoxDecoration(
-        color: PairWithWhite.hjl,
-        borderRadius: BorderRadius.circular(500),
-      ),
+    return ChangeNotifierProvider(
+        create: (context) => ListController(),
+        child: Consumer<ListController>(builder: (context, value, child) {
+          widget.controller.listController = value;
+          return BottomBar(
+            clip: Clip.none,
+            fit: StackFit.expand,
+            icon: (width, height) => Center(
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: null,
+                icon: Icon(
+                  Icons.arrow_upward_rounded,
+                  color: colors[currentPage],
+                  size: width,
+                ),
+              ),
+            ),
+            borderRadius: BorderRadius.circular(10),
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.decelerate,
+            showIcon: false,
+            width: MediaQuery.of(context).size.width,
+            barColor: PairWithWhite.hjl,
+            // barColor: Colors.transparent,
+            start: 3,
+            end: 0,
+            offset: 10,
+            barAlignment: Alignment.bottomCenter,
+            iconHeight: 30,
+            iconWidth: 30,
+            reverse: false,
+            barDecoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            iconDecoration: BoxDecoration(
+              color: PairWithWhite.hjl,
+              borderRadius: BorderRadius.circular(500),
+            ),
 
-      ///是否隐藏菜单
-      hideOnScroll: widget.controller.isHidden,
-      scrollOpposite: false,
-      onBottomBarHidden: () {},
-      onBottomBarShown: () {},
-      body: (context, controller) {
-        return Scrollbar(
-                    thumbVisibility: true,
-                    child: EasyRefresh(
-                      controller: erController,
-                      header: BallPulseHeader(
-                          color: const Color.fromRGBO(121, 118, 254, 1)),
-                      footer: BallPulseFooter(
-                          color: const Color.fromRGBO(121, 118, 254, 1)),
-                      onLoad: () async {
-                        widget.controller.listNum = await widget.onLoad();
-                        value.update();
-                      },
-                      onRefresh: () async {
-                        widget.controller.listNum = 0;
-                        value.update();
-                        widget.controller.listNum = await widget.onRefresh();
-                        value.update();
-                      },
-                      child: ListView.builder(
-                          padding:
-                              const EdgeInsets.only(left: 8, right: 8, top: 5),
-                          controller: controller,
-                          itemCount: widget.controller.listNum == 0
-                              ? 1
-                              : widget.controller.listNum,
-                          itemBuilder: (context, index) {
-                            if (widget.controller.listNum == 0) {
-                              return Column(
-                                children: [
-                                  Image.asset('images/缺省页.png'),
-                                  const TDText(
-                                    '暂无运维事件',
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromRGBO(143, 145, 161, 1)),
-                                  )
-                                ],
-                              );
-                            }
-                            return widget.widgetList(context, index);
-                          }),
-                    ));
-              
-      },
-      child: widget.bottomBar,
-    );
-                
-                }));
-    
-     
+            ///是否隐藏菜单
+            hideOnScroll: widget.controller.isHidden,
+            scrollOpposite: false,
+            onBottomBarHidden: () {},
+            onBottomBarShown: () {},
+            body: (context, controller) {
+              return Scrollbar(
+                  thumbVisibility: true,
+                  child: EasyRefresh(
+                    controller: erController,
+                    header: BallPulseHeader(
+                        color: const Color.fromRGBO(121, 118, 254, 1)),
+                    footer: BallPulseFooter(
+                        color: const Color.fromRGBO(121, 118, 254, 1)),
+                    onLoad: () async {
+                      widget.controller.listNum = await widget.onLoad();
+                      value.update();
+                    },
+                    onRefresh: () async {
+                      widget.controller.listNum = 0;
+                      value.update();
+                      widget.controller.listNum = await widget.onRefresh();
+                      value.update();
+                    },
+                    child: ListView.builder(
+                        padding:
+                            const EdgeInsets.only(left: 8, right: 8, top: 5),
+                        controller: controller,
+                        itemCount: widget.controller.listNum == 0
+                            ? 1
+                            : widget.controller.listNum,
+                        itemBuilder: (context, index) {
+                          if (widget.controller.listNum == 0) {
+                            return Column(
+                              children: [
+                                Image.asset('images/缺省页.png'),
+                                const TDText(
+                                  '暂无运维事件',
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(143, 145, 161, 1)),
+                                )
+                              ],
+                            );
+                          }
+                          return widget.widgetList(context, index);
+                        }),
+                  ));
+            },
+            child: widget.bottomBar,
+          );
+        }));
   }
 }
 
@@ -203,18 +196,18 @@ class Panel {
 class BottomBarController extends ChangeNotifier {
   ///面板索引
   int index = 0;
+
   ///按钮索引
   int? barIndex;
   bottomController? b;
-  List<BarIcon> iconList=[];
-  revisePanel({
-    String? descript,
-    String? cancel,
-    String? confirm
-  }){
-    iconList[barIndex!].panel?.descript=(descript??iconList[barIndex!].panel?.descript)!;
-    iconList[barIndex!].panel?.cancel=(cancel??iconList[barIndex!].panel?.cancel)!;
-    iconList[barIndex!].panel?.confirm=(confirm??iconList[barIndex!].panel?.confirm)!;
+  List<BarIcon> iconList = [];
+  revisePanel({String? descript, String? cancel, String? confirm}) {
+    iconList[barIndex!].panel?.descript =
+        (descript ?? iconList[barIndex!].panel?.descript)!;
+    iconList[barIndex!].panel?.cancel =
+        (cancel ?? iconList[barIndex!].panel?.cancel)!;
+    iconList[barIndex!].panel?.confirm =
+        (confirm ?? iconList[barIndex!].panel?.confirm)!;
     b?.updata();
   }
 }
@@ -233,9 +226,8 @@ class bottomBar {
       required Function(int) onclick,
       required Function(bool) barStateChange,
       required BottomBarController bottomBarController,
-      MainAxisAlignment alignment=MainAxisAlignment.spaceBetween
-      }) {
-        bottomBarController.iconList=iconList;
+      MainAxisAlignment alignment = MainAxisAlignment.spaceBetween}) {
+    bottomBarController.iconList = iconList;
     return ChangeNotifierProvider(
         create: (context) => bottomController(),
         child: Consumer<bottomController>(
@@ -273,53 +265,67 @@ class bottomBar {
                               var index = iconList.indexOf(e);
                               if (e.touchChange) {
                                 bottomBarController.index = 1;
-                                bottomBarController.barIndex=index;
+                                bottomBarController.barIndex = index;
                                 barStateChange(false);
                                 controller.updata();
-                              }else{
+                              } else {
                                 onclick(index);
-                            }
-                              
+                              }
                             },
                           );
                         }).toList(),
                       ),
                     ),
-                      (){
-                        
-                        if(bottomBarController.barIndex==null){
-                          return const SizedBox(height: 30,);
-                        }
+                    () {
+                      if (bottomBarController.barIndex == null) {
+                        return const SizedBox(
+                          height: 30,
+                        );
+                      }
 
-                        if(iconList[bottomBarController.barIndex!].panel==null){
-                          return const SizedBox(height: 30,);
-                        }
-                     return Center(child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: TDText(iconList[bottomBarController.barIndex!].panel?.descript,textColor: Colors.white,)),
-                          TDButton(
-                            text:iconList[bottomBarController.barIndex!].panel?.cancel,
-                            onTap: (){
-                              bottomBarController.index=0;
-                              barStateChange(true);
-                              controller.updata();
-                            },
-                          ),
-                          const SizedBox(width: 5,),
-                          TDButton(
-                            theme: TDButtonTheme.primary,
-                            text:iconList[bottomBarController.barIndex!].panel?.confirm,
-                            onTap: (){
-                              onclick(bottomBarController.barIndex!);
-                            },
-                          ),
-                        ],
-                      ),);
-                      }()
-                    
-                    
-          
+                      if (iconList[bottomBarController.barIndex!].panel ==
+                          null) {
+                        return const SizedBox(
+                          height: 30,
+                        );
+                      }
+                      return Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                                child: TDText(
+                              iconList[bottomBarController.barIndex!]
+                                  .panel
+                                  ?.descript,
+                              textColor: Colors.white,
+                            )),
+                            TDButton(
+                              text: iconList[bottomBarController.barIndex!]
+                                  .panel
+                                  ?.cancel,
+                              onTap: () {
+                                bottomBarController.index = 0;
+                                barStateChange(true);
+                                controller.updata();
+                              },
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            TDButton(
+                              theme: TDButtonTheme.primary,
+                              text: iconList[bottomBarController.barIndex!]
+                                  .panel
+                                  ?.confirm,
+                              onTap: () {
+                                onclick(bottomBarController.barIndex!);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }()
                   ],
                 ));
           },

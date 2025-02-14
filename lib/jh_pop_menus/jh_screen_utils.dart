@@ -2,6 +2,7 @@
 ///
 ///  Created by iotjin on 2020/07/04.
 ///  description:  屏幕信息
+library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

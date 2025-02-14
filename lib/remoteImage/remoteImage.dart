@@ -27,10 +27,8 @@ class remoteImage {
           remote=90;
         case  photoDirection.up:
         return ;
-        default:
-        return ;
       }
-      img.Image? _rotatedImage;
+      img.Image? rotatedImage;
     // 读取图像文件
     final file = File(imagePath);
     final imageBytes = await file.readAsBytes();
@@ -39,10 +37,10 @@ class remoteImage {
     img.Image originalImage = img.decodeImage(imageBytes)!;
 
     // 旋转图像（顺时针旋转90度）
-    _rotatedImage = img.copyRotate(originalImage, angle: remote);
+    rotatedImage = img.copyRotate(originalImage, angle: remote);
 
     // 保存旋转后的图像
-    final rotatedImageBytes = img.encodeJpg(_rotatedImage);
+    final rotatedImageBytes = img.encodeJpg(rotatedImage);
     await file.writeAsBytes(rotatedImageBytes);
 
   }
@@ -50,7 +48,7 @@ class remoteImage {
 // 重力感应器组件
 class camreaDirection extends StatefulWidget{
   Function(photoDirection) callback;
-  camreaDirection({
+  camreaDirection({super.key, 
     required this.callback
   });
   @override

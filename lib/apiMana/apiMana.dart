@@ -12,6 +12,16 @@ class apiConfig {
 
   ///图片显示使用的地址
   static String imageInter = '';
+
+  ///配置环境
+  static Envirment currentEnvirment= Envirment.dev;
+}
+
+enum Envirment {
+  ///开发环境
+  dev,
+  ///测试环境
+  pro,
 }
 
 class QueryConfig {
@@ -112,4 +122,30 @@ class apiMana {
     }
     return response.data;
   }
+  ///根据文件地址上传文件
+  static Future uploadFilePath({
+   required UploadConfig config,
+  })async{
+  final dio = Dio();
+    FormData formData = FormData.fromMap({
+      'file':await MultipartFile.fromFile(config.filePath)
+    });
+    final response = await dio.post(config.url,data: formData,
+    options: Options(
+      headers: {
+      'Authorization': apiConfig.token,
+      }
+    ));
+    return response.data;
+  }
+
+}
+
+class UploadConfig{
+  String url;
+  String filePath;
+  UploadConfig({
+    required this.url,
+    required this.filePath
+  });
 }

@@ -25,8 +25,24 @@ dependencies:
   # json_dynamic_widget: ^7.3.1+13
   #浮窗
   floating: ^5.0.1
-  video_trimmer: ^4.0.1
+  # video_trimmer: ^3.0.1
   file_picker: ^8.0.7
+  # 底部抽屉
+  sliding_up_panel: ^2.0.0+1
+  # 模态弹窗
+  modal_bottom_sheet: ^3.0.0
+  # 3d 建模
+  model_viewer_plus: ^1.9.1
+  webview_flutter: ^4.10.0
+  signature: ^5.5.0
+
+  flutter_drawing_board: ^0.9.5
+  # syncfusion_flutter_signaturepad: ^28.1.39
+  image_painter: 
+    path: ../../yellowQ-Flutter-Image-Painter-main (1)/yellowQ-Flutter-Image-Painter-main
+  open_file: ^3.3.2
+  scribble: ^0.10.0+1
+  image_cropper: ^9.0.0
 dev_dependencies:
   integration_test:
     sdk: flutter
@@ -43,4 +59,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/appJson.json
+    - assets/
  

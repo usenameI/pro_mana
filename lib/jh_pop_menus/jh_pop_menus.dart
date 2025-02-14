@@ -146,9 +146,9 @@ class JhPopMenus {
 }
 class _BasePopMenus extends Dialog {
   const _BasePopMenus({
-    Key? key,
+    super.key,
     super.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

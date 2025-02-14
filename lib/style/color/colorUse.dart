@@ -47,6 +47,8 @@ static Color primary(context){
 
   static Color maskColor=const Color.fromRGBO(51, 51, 51, 0.5);
 
+  ///项目管理系统的主调颜色
+  static Color pmMainColor=const Color.fromRGBO(121, 118, 254, 1);
 
 }
 

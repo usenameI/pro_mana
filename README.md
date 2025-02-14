@@ -31,3 +31,5 @@
     19、秒表功能 secondTime
     12、消息通知功能 notificaiton
     13、监听器功能（监听app前台后台状态）observer
+    14、判断平台 platformType
+    15、绘图功能 Graffiti

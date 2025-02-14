@@ -22,17 +22,17 @@ dependencies:
   # 裁剪
   crop_your_image: ^1.1.0
   # 组件库
-  # tdesign_flutter: ^0.1.7
+  # tdesign_flutter: ^0.1.8
   tdesign_flutter:
-    path: ../tdesign-flutter-0.1.7/tdesign-flutter-0.1.7/tdesign-component
+    path: ../tdesign-flutter-0.1.8/tdesign-flutter-0.1.8/tdesign-component
   # tdesign_flutter:
   #   git:
   #     url: 'https://github.com/bomb-bomb/tdesign-flutter'
   #     path: 'tdesign-component'
   #微信相册
-  wechat_assets_picker: ^9.3.3
+  wechat_assets_picker: ^9.4.2
   #微信相机
-  wechat_camera_picker: ^4.2.0
+  wechat_camera_picker: ^4.3.6
   #图片预览
   photo_view: ^0.15.0
     # 屏幕参数适配 https://pub.flutter-io.cn/packages/flutter_screenutil
@@ -42,13 +42,13 @@ dependencies:
   #坐标系转换
   coordtransform_dart: ^1.0.4
   #网络请求插件
-  dio: ^5.4.1
+  dio: ^5.8.0+1
   #本地存储
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.5.1
   #状态管理
   provider: ^6.1.2
   #日期范围
-  syncfusion_flutter_datepicker: ^27.1.58
+  # syncfusion_flutter_datepicker: ^27.2.5
   #底部菜单
   convex_bottom_bar: ^3.2.0
   #列表的底部菜单
@@ -61,10 +61,24 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   #路径获取
   path_provider: ^2.1.5
+  # 签名涂鸦
+  signature: ^5.5.0
+  #弹窗选择
+  custom_pop_up_menu: ^1.2.4
+  #视频剪辑
+  video_trimmer: ^3.0.1
+
+  image_painter: 
+    path: ../yellowQ-Flutter-Image-Painter-main (1)/yellowQ-Flutter-Image-Painter-main
+  open_file: ^3.3.2
+  #图表库
+  syncfusion_flutter_charts: ^27.2.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+dependency_overrides: 
+  path: ^1.9.1 
 flutter:
   plugin:
     platforms:

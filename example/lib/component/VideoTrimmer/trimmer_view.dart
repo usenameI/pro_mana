@@ -107,13 +107,10 @@ class _TrimmerViewState extends State<TrimmerView> {
                       },
                       onChangeEnd: (value) => _endValue = value,
                       onChangePlaybackState: (value){
-                        print('log__change');
-                        
                         setState(() => _isPlaying = value);
                       },
-                          
                           onThumbnailLoadingComplete: () {
-                            print('log___loading complete');
+                            
                           },
                     ),
                   ),

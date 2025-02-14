@@ -175,7 +175,7 @@ class customJlxzq extends StatefulWidget {
   Function callback;
   bool forbid;
   customJlxzq(
-      {this.controller,
+      {super.key, this.controller,
       required this.data,
       required this.callback,
       this.forbid = false,
@@ -191,7 +191,7 @@ class _customJlxzq extends State<customJlxzq> with TickerProviderStateMixin {
   List stackC = [];
   List Contents = [];
   int pageIndex = 0;
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   TabController? _tab;
   void _updateState() {
     setState(() {}); // 更新状态以反映控制器的变化
@@ -410,7 +410,7 @@ class pl extends StatefulWidget {
   dynamic name;
   bool forbid;
   pl(
-      {required this.listData,
+      {super.key, required this.listData,
       required this.callback,
       required this.name,
       required this.forbid});
